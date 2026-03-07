@@ -16,6 +16,10 @@ public class IntakeSubsystem extends SubsystemBase {
   private SparkFlex intakeLeftVortex; 
   private SparkFlex intakeRightVortex; 
   private SparkFlexConfig intakeVortexConfig;
+  private SparkMax leftIntakeOut;
+  private SparkMax rightIntakeOut;
+  private SparkMaxConfig intakeNeoConfig;
+  public double currentPosition;
 
   public IntakeSubsystem() {
 
@@ -32,14 +36,45 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeRightVortex = new SparkFlex(18, com.revrobotics.spark.SparkLowLevel.MotorType.kBrushless);
         intakeRightVortex.configure(intakeVortexConfig, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, com.revrobotics.spark.SparkBase.PersistMode.kNoPersistParameters);
 
-  }
+
+      intakeNeoConfig = new SparkMaxConfig();
+        intakeNeoConfig
+          .smartCurrentLimit(20)
+          .idleMode(IdleMode.kBrake);
+
+
+    leftIntakeOut = new SparkMax(0,MotorType.kBrushless);
+    leftIntakeOut.configure(intakeNeoConfig);
+    rightIntakeOut = new SparkMax(0,MotorType.kBrushless);
+    rightIntakeOut.configure(intakeNeoConfig);
+
+    rightIntakeOutEncoder = rightIntakeOut.getEncoder();
+    leftIntakeOutEncoder = leftIntakeOut.getEncoder();
+  }    
+
 
   /**
    * Example command factory method.
    *
    * @return a command
    */
-  public Command exampleMethodCommand() {
+  public Command spinIntake(double speed) {
+   intakeLeftVortex.set(speed);
+   intakeRightVortex.set(-speed);
+   
+  }
+
+    public Command intakeRetract() {
+    // Inline construction of command goes here.
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+
+    return runOnce(
+        () -> {
+          /* one-time action goes here */
+        });
+  }
+
+    public Command intakeExtend() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
     return runOnce(
@@ -47,6 +82,7 @@ public class IntakeSubsystem extends SubsystemBase {
           /* one-time action goes here */
         });
   }
+
 
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -58,8 +94,16 @@ public class IntakeSubsystem extends SubsystemBase {
     return false;
   }
 
+  public void moveIntake(double intakeSpeed){
+    rightIntakeOut.set(intakeSpeed);
+    leftIntakeOut.set(-intakeSpeed);
+  }
+
+
   @Override
   public void periodic() {
+    currentPosition = rightIntakeOutEncoder;
+    SmartDashboard.putNumber("IntakePosition",currentPosition);
     // This method will be called once per scheduler run
   }
 

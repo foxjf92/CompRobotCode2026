@@ -8,8 +8,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HopperSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
-  public HopperSubsystem() {}
+  
+  private SparkMax hopperLeftNeo;
+  private SparkMax hopperRightNeo;
+  private SparkMaxConfig hopperNeoConfig;
+
+  public HopperSubsystem() {
+    hopperNeoConfig = new SparkMaxConfig();
+
+    hopperNeoConfig
+      .smartCurrentLimit(40)
+      .idleMode(IdleMode.kBrake)
+      .voltageCompensation(12);
+
+    hopperLeftNeo = new SparkMax(0, MotorType.kBrushless);
+    hopperLeftNeo.configure(hopperNeoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    hopperRightNeo = new SparkMax(0, MotorType.kBrushless);
+    hopperRightNeo.configure(hopperNeoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+  }
 
   /**
    * Example command factory method.
@@ -24,7 +40,11 @@ public class HopperSubsystem extends SubsystemBase {
           /* one-time action goes here */
         });
   }
-
+  public Command spinHopper(double speed) {
+   hopperLeftNeo.set(speed);
+   hopperRightNeo.set(speed);
+   
+  }
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *
