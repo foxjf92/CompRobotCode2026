@@ -11,7 +11,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HopperSubsystem extends SubsystemBase {
-  
   private SparkMax hopperLeftNeo;
   private SparkMax hopperRightNeo;
   private SparkMaxConfig hopperNeoConfig;
@@ -20,9 +19,9 @@ public class HopperSubsystem extends SubsystemBase {
     hopperNeoConfig = new SparkMaxConfig();
 
     hopperNeoConfig
-        .smartCurrentLimit(1)
-        .idleMode(IdleMode.kBrake)
-        .voltageCompensation(12);
+      .smartCurrentLimit(1)
+      .idleMode(IdleMode.kBrake)
+      .voltageCompensation(12);
 
     hopperLeftNeo = new SparkMax(2, MotorType.kBrushless);
     hopperLeftNeo.configure(hopperNeoConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);

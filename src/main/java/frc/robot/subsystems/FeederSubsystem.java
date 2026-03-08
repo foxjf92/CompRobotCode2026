@@ -14,25 +14,29 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class FeederSubsystem extends SubsystemBase {
   final TalonFX leftFeedMotor;
   final TalonFX rightFeedMotor;
-  final TalonFXConfiguration feedMotorConfiguration;
+  final TalonFXConfiguration feedMotorConfig;
   final CurrentLimitsConfigs feedMotorCurrentLimits;
   
   public FeederSubsystem() {
-    feedMotorConfiguration = new TalonFXConfiguration();
-    feedMotorConfiguration.MotorOutput
-      .withNeutralMode(com.ctre.phoenix6.signals.NeutralModeValue.Brake);
+    feedMotorConfig = new TalonFXConfiguration();
+    feedMotorConfig
+      .MotorOutput.withNeutralMode(com.ctre.phoenix6.signals.NeutralModeValue.Brake);
 
     feedMotorCurrentLimits = new CurrentLimitsConfigs();
-    feedMotorCurrentLimits.SupplyCurrentLimit = 20;         // limits power consumption
+    feedMotorCurrentLimits.SupplyCurrentLimit = 1;         // limits power consumption
     feedMotorCurrentLimits.SupplyCurrentLimitEnable = true; 
-    feedMotorCurrentLimits.StatorCurrentLimit = 20;         // limits acceleration and peak torque
+    feedMotorCurrentLimits.StatorCurrentLimit = 5;         // limits acceleration and peak torque, top
     feedMotorCurrentLimits.StatorCurrentLimitEnable = true;
-    
+
+    feedMotorConfig
+      .withCurrentLimits(feedMotorCurrentLimits);
 
     leftFeedMotor = new TalonFX(15, CANBus.roboRIO());
-
+    leftFeedMotor.getConfigurator().refresh(feedMotorConfig);
+    leftFeedMotor.getConfigurator().apply(feedMotorConfig);
     rightFeedMotor = new TalonFX(16, CANBus.roboRIO());
-    
+    rightFeedMotor.getConfigurator().refresh(feedMotorConfig);
+    rightFeedMotor.getConfigurator().apply(feedMotorConfig);
   }
 
   public void spinFeeder(double speed) {
