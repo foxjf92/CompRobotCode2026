@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeDeploySubsystem;
 
-public class IntakeDeployCommand extends Command{
+public class IntakeExtendCommand extends Command{
     private final IntakeDeploySubsystem m_intakeDeploy;
     // private int targetPosition; //Symbolic intake position where 1 = intake retracted, 2 = intake deployed, 3 = launch position? If needed
     public static double targetSetpoint; // Encoder position value that corresponds to arm position
@@ -16,7 +16,7 @@ public class IntakeDeployCommand extends Command{
     // public final double arbFF = 0.0; // Start Here
     // private PIDController m_IntakeDeployPID = new PIDController(kP,kI,kD); // look @ profiled PID maybe?
 
-    public IntakeDeployCommand(IntakeDeploySubsystem intakeDeploy){
+    public IntakeExtendCommand(IntakeDeploySubsystem intakeDeploy){
         m_intakeDeploy = intakeDeploy; 
         // targetPosition = target;
         addRequirements(m_intakeDeploy);
@@ -24,7 +24,7 @@ public class IntakeDeployCommand extends Command{
 
     @Override
     public void initialize(){
-        targetSetpoint = Constants.IntakeConstants.intakeDeployedPosition;
+        targetSetpoint = Constants.IntakeConstants.intakeExtendedPosition;
     }
 
     @Override

@@ -5,7 +5,16 @@
 package frc.robot;
 
 import frc.robot.commands.Autos;
+import frc.robot.commands.FeederCommand;
+import frc.robot.commands.HopperRollersFeedCommand;
+import frc.robot.commands.HopperRollersStillCommand;
+import frc.robot.commands.IntakeExtendCommand;
+import frc.robot.commands.IntakeRetractCommand;
+import frc.robot.commands.IntakeRollersFeedCommand;
+import frc.robot.commands.IntakeRollersIntakeCommand;
+import frc.robot.commands.LauncherCommand;
 import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeRollersSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.IntakeDeploySubsystem;
@@ -26,11 +35,25 @@ public class RobotContainer {
   
   private final IntakeDeploySubsystem intakeDeploy = new IntakeDeploySubsystem();
   private final IntakeRollersSubsystem intakeRollers = new IntakeRollersSubsystem();
+  private final HopperSubsystem hopper = new HopperSubsystem();
   private final FeederSubsystem feeder = new FeederSubsystem();
   private final LauncherSubsystem launcher = new LauncherSubsystem();
 
+  // Intake Commands
+  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.01);
+  Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.01);
+  Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
+  Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
   
+  // Hopper Commands
+  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.01);
+  Command hopperStill = new HopperRollersStillCommand(hopper);
 
+  // Feeder Commands
+  Command feederFeed = new FeederCommand(feeder,0.01);
+
+  // Launcher Commands
+  Command launcherLaunch = new LauncherCommand(launcher, 0.01);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

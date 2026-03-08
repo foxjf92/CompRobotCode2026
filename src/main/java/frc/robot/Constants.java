@@ -18,8 +18,8 @@ public final class Constants {
   }
 
   public static class IntakeConstants {
-    public static final double intakeRetractedPosition = 0.0;
-    public static final double intakeDeployedPosition = 1.0;
+    public static double intakeExtendedPosition = 0.0;
+    public static double intakeRetractedPosition = 0.0;
     // public static final double intakeLaunchPosition = 2.0; // Use if we need a launching position
   }
 }
