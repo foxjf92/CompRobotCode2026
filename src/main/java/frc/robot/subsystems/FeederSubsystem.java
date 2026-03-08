@@ -4,23 +4,40 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.CANBus;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FeederSubsystem extends SubsystemBase {
-  public FeederSubsystem() {}
+  final TalonFX leftFeedMotor;
+  final TalonFX rightFeedMotor;
+  final TalonFXConfiguration feedMotorConfiguration;
+  final CurrentLimitsConfigs feedMotorCurrentLimits;
+  
+  public FeederSubsystem() {
+    feedMotorConfiguration = new TalonFXConfiguration();
+    feedMotorConfiguration.MotorOutput
+      .withNeutralMode(com.ctre.phoenix6.signals.NeutralModeValue.Brake);
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+    feedMotorCurrentLimits = new CurrentLimitsConfigs();
+    feedMotorCurrentLimits.SupplyCurrentLimit = 20;         // limits power consumption
+    feedMotorCurrentLimits.SupplyCurrentLimitEnable = true; 
+    feedMotorCurrentLimits.StatorCurrentLimit = 20;         // limits acceleration and peak torque
+    feedMotorCurrentLimits.StatorCurrentLimitEnable = true;
+    
+
+    leftFeedMotor = new TalonFX(15, CANBus.roboRIO());
+
+    rightFeedMotor = new TalonFX(16, CANBus.roboRIO());
+    
   }
 
   public void spinFeeder(double speed) {
-    // Code to set feeder motor speed
+    leftFeedMotor.set(speed);
+    rightFeedMotor.set(-speed);
   }
   
   @Override

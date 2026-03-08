@@ -7,14 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeRollersSubsystem;
 
-public class IntakeRollersCommand extends Command{
+public class IntakeRollersIntakeCommand extends Command{
   private final IntakeRollersSubsystem m_intakeRollers;
   public double intakeSpeed; 
 
-  public IntakeRollersCommand(IntakeRollersSubsystem intakeRollers, double speed){
-      m_intakeRollers = intakeRollers;
-      intakeSpeed = speed; 
-      addRequirements(m_intakeRollers);
+  public IntakeRollersIntakeCommand(IntakeRollersSubsystem intakeRollers, double speed){
+    m_intakeRollers = intakeRollers;
+    intakeSpeed = speed; 
+    addRequirements(m_intakeRollers);
   }
 
   @Override
@@ -22,6 +22,6 @@ public class IntakeRollersCommand extends Command{
 
   @Override
   public void execute(){
-      m_intakeRollers.spinRollers(intakeSpeed);
+    m_intakeRollers.spinRollersIntake(intakeSpeed);
   }
 }

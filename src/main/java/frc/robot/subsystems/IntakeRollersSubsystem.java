@@ -6,10 +6,9 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/** Controls the intake rollers (Vortex motors). */
 public class IntakeRollersSubsystem extends SubsystemBase {
-  private final SparkFlex leftRoller;
-  private final SparkFlex rightRoller;
+  private final SparkFlex leftRollerMotor;
+  private final SparkFlex rightRollerMotor;
   private final SparkFlexConfig rollerConfig;
 
   public IntakeRollersSubsystem() {
@@ -19,16 +18,16 @@ public class IntakeRollersSubsystem extends SubsystemBase {
         .idleMode(IdleMode.kBrake)
         .voltageCompensation(12);
 
-    leftRoller = new SparkFlex(17, MotorType.kBrushless);
-    leftRoller.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
+    leftRollerMotor = new SparkFlex(17, MotorType.kBrushless);
+    leftRollerMotor.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
 
-    rightRoller = new SparkFlex(18, MotorType.kBrushless);
-    rightRoller.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
+    rightRollerMotor = new SparkFlex(18, MotorType.kBrushless);
+    rightRollerMotor.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
   }
 
-  public void spinRollers(double speed) {
-    leftRoller.set(speed);
-    rightRoller.set(-speed);
+  public void spinRollersIntake(double speed) {
+    leftRollerMotor.set(speed);
+    rightRollerMotor.set(speed);
   }
 
   @Override

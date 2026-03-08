@@ -9,7 +9,6 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/** Controls the intake out motors (NEOs) and their encoders. */
 public class IntakeDeploySubsystem extends SubsystemBase {
   private final SparkMax leftOutNeo;
   private final SparkMax rightOutNeo;
@@ -32,18 +31,24 @@ public class IntakeDeploySubsystem extends SubsystemBase {
     leftEncoder = leftOutNeo.getEncoder();
   }
 
-  public void extendIntake(double speed) {
-
-    leftOutNeo.set(-speed);
-    rightOutNeo.set(speed);
-
+  public void extendIntake() {
+    leftOutNeo.set(0.01);
+    rightOutNeo.set(-0.01);
   }
 
   public void holdDownIntake() {
+    leftOutNeo.set(0.01);
+    rightOutNeo.set(-0.01);
+  }
 
-    leftOutNeo.set(0);
-    rightOutNeo.set(0);
+  public void retractIntake() {
+    leftOutNeo.set(-0.01);
+    rightOutNeo.set(0.01);
+  }
 
+  public void holdUpIntake() {
+    leftOutNeo.set(-0.01);
+    rightOutNeo.set(0.01); 
   }
 
   @Override

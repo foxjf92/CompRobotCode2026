@@ -17,7 +17,6 @@ public class LauncherCommand extends Command{
       addRequirements(m_launcher);
   }
   
-
   @Override
   public void initialize(){}
 

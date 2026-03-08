@@ -4,25 +4,25 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.FeederSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class FeederCommand extends Command{
-  private final FeederSubsystem m_feeder;
-  public double feedSpeed; 
+public class HopperRollersFeedCommand extends Command{
+  private final HopperSubsystem m_hopper;
+  public double indexSpeed; 
 
-  public FeederCommand(FeederSubsystem feeder, double speed){
-    m_feeder = feeder;
-    feedSpeed = speed; 
-    addRequirements(m_feeder);
+  public HopperRollersFeedCommand(HopperSubsystem hopper, double speed){
+    m_hopper = hopper;
+    indexSpeed = speed; 
+    addRequirements(m_hopper);
   }
-
+  
   @Override
   public void initialize(){}
 
   @Override
   public void execute(){
-    m_feeder.spinFeeder(feedSpeed);
+    m_hopper.spinHopper(indexSpeed);
   }
 
   @Override
