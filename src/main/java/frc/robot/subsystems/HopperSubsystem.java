@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HopperSubsystem extends SubsystemBase {
@@ -17,42 +20,19 @@ public class HopperSubsystem extends SubsystemBase {
     hopperNeoConfig = new SparkMaxConfig();
 
     hopperNeoConfig
-      .smartCurrentLimit(40)
-      .idleMode(IdleMode.kBrake)
-      .voltageCompensation(12);
+        .smartCurrentLimit(1)
+        .idleMode(IdleMode.kBrake)
+        .voltageCompensation(12);
 
-    hopperLeftNeo = new SparkMax(0, MotorType.kBrushless);
-    hopperLeftNeo.configure(hopperNeoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-    hopperRightNeo = new SparkMax(0, MotorType.kBrushless);
-    hopperRightNeo.configure(hopperNeoConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    hopperLeftNeo = new SparkMax(2, MotorType.kBrushless);
+    hopperLeftNeo.configure(hopperNeoConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
+    hopperRightNeo = new SparkMax(3, MotorType.kBrushless);
+    hopperRightNeo.configure(hopperNeoConfig,com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
   }
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
-  }
-  public Command spinHopper(double speed) {
-   hopperLeftNeo.set(speed);
-   hopperRightNeo.set(speed);
-   
-  }
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+  public void spinHopper(double speed) {
+    hopperLeftNeo.set(speed);
+    hopperRightNeo.set(speed);
   }
 
   @Override

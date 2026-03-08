@@ -8,13 +8,7 @@
         "https://dev.studica.com/maven/release/2026/"
     ],
     "jsonUrl": "https://dev.studica.com/maven/release/2026/json/StudicaLib-2026.0.2.json",
-    "conflictsWith": [
-        {
-            "uuid": "cb311d09-36e9-4143-a032-55bb2b94443b",
-            "errorMessage": "StudicaLib (newer devices) is not compatible with Studica (NavX, NavX2)",
-            "offlineFileName": "Studica.json"
-        }
-    ],
+    
     "javaDependencies": [
         {
             "groupId": "com.studica.frc",

@@ -4,18 +4,14 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LauncherSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
   
   private SparkFlex launcherLeftVortex; 
   private SparkFlex launcherRightVortex; 
@@ -25,43 +21,28 @@ public class LauncherSubsystem extends SubsystemBase {
 
     launcherVortexConfig = new SparkFlexConfig();
         
-        launcherVortexConfig
-          .smartCurrentLimit(80)
-          .idleMode(IdleMode.kBrake)
-          .voltageCompensation(12);
+    launcherVortexConfig
+      .smartCurrentLimit(1)
+      .idleMode(IdleMode.kBrake)
+      .voltageCompensation(12);
 
-        launcherLeftVortex = new SparkFlex(15, MotorType.kBrushless);
-        launcherLeftVortex.configure(launcherVortexConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
-        
-        launcherRightVortex = new SparkFlex(16, MotorType.kBrushless);
-        launcherRightVortex.configure(launcherVortexConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    launcherLeftVortex = new SparkFlex(15, MotorType.kBrushless);
+    launcherLeftVortex.configure(launcherVortexConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
+    
+    launcherRightVortex = new SparkFlex(16, MotorType.kBrushless);
+    launcherRightVortex.configure(launcherVortexConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
 
   }
 
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  public void spinLauncher(double speed) {
+    launcherLeftVortex.set(speed);
+    launcherRightVortex.set(-speed);
   }
 
-    public Command spinLauncher(double speed) {
-   launcherLeftVortex.set(speed);
-   launcherRightVortex.set(-speed);
-   
-  }
-
-  public boolean atSpeed() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
-  }
+  // public boolean atSpeed() {
+  //   // Query some boolean state, such as a digital sensor.
+  //   return false;
+  // }
 
   @Override
   public void periodic() {
