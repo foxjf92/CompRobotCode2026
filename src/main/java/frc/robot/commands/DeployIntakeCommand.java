@@ -1,0 +1,65 @@
+package frc.robot.commands;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.IntakeDeploySubsystem;
+
+public class DeployIntakeCommand extends Command{
+    private final IntakeDeploySubsystem m_intakeDeploy;
+    private int targetPosition; //Symbolic intake position where 1 = ground intake, 2 = amp position, 3 = launch position
+    public static double wristSetpoint; // Encoder position value that corresponds to arm position
+
+    public final double kP = 0.04; //2nd 
+    public final double kI = 0.0; //4th
+    public final double kD = 0.0; //3rd
+    public final double arbFF = 0.0; // Start Here
+    
+    private PIDController m_wristPID = new PIDController(kP,kI,kD); // look @ profiled PID maybe?
+
+    public DeployIntakeCommand(IntakeDeploySubsystem intakeDeploy, int m_position){
+        m_intakeDeploy = intakeDeploy; 
+        targetPosition = m_position;
+        addRequirements(m_intakeDeploy);
+    }
+
+
+    @Override
+    public void initialize(){
+        
+        // if (targetPosition == 0) {
+        //     wristSetpoint = WristConstants.wristStowPosition;
+        // }
+        // if (targetPosition == 1) {
+        //     wristSetpoint = WristConstants.wristGroundIntakePosition;
+        // }
+        // if (targetPosition == 2) {
+        //     wristSetpoint = WristConstants.wristHoldPosition;
+        // }
+        // if (targetPosition == 3) {
+        //     wristSetpoint = WristConstants.wristProcessorPosiiton;
+        // }
+        // if (targetPosition == 4) {
+        //     wristSetpoint = WristConstants.wristReefIntakePosition;
+        // }
+        // // if (targetPosition == 5) {
+        // //     wristSetpoint = WristConstants.wristL3IntakePosition;
+        // // }
+        // if (targetPosition == 6) {
+        //     wristSetpoint = WristConstants.wristLaunchPosition;
+        // }
+        
+    }
+
+    @Override
+    public void execute(){
+
+        // double controlEffort = m_wristPID.calculate(m_wrist.wristEncoder.getPosition(), wristSetpoint); // adds FF input to fight gravity, subtract PID output due to encoder inversion
+
+        // m_wrist.moveWrist(controlEffort);
+    }
+
+    @Override
+    public boolean isFinished(){
+        return false;
+    }
+}

@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FeederSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
   public FeederSubsystem() {}
 
   /**
@@ -20,6 +19,10 @@ public class FeederSubsystem extends SubsystemBase {
     return false;
   }
 
+  public void spinFeeder(double speed) {
+    // Code to set feeder motor speed
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -16,6 +16,8 @@ public class IntakeDeploySubsystem extends SubsystemBase {
   private final SparkMaxConfig intakeDeployConfig;
   private final RelativeEncoder leftEncoder;
 
+  public double currentPosition;
+
   public IntakeDeploySubsystem() {
     intakeDeployConfig = new SparkMaxConfig();
     intakeDeployConfig
@@ -46,9 +48,9 @@ public class IntakeDeploySubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    currentPosition = leftEncoder.getPosition();
     // Publish left encoder position
-    SmartDashboard.putNumber("IntakeDeployLeftPosition", leftEncoder.getPosition());
+    SmartDashboard.putNumber("IntakeDeployLeftPosition", currentPosition);
 
   }
 }

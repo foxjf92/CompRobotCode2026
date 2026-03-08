@@ -26,17 +26,13 @@ public class IntakeRollersSubsystem extends SubsystemBase {
     rightRoller.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
   }
 
-  public void setRollerSpeed(double speed) {
+  public void spinRollers(double speed) {
     leftRoller.set(speed);
     rightRoller.set(-speed);
   }
 
-  public void stopRollers() {
-    setRollerSpeed(0);
-  }
-
   @Override
   public void periodic() {
-    // no-op for now
+    // nothing for now
   }
 }

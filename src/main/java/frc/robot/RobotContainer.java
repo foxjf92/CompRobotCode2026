@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.commands.Autos;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.IntakeRollersSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
@@ -24,8 +23,6 @@ public class RobotContainer {
 
   final CommandXboxController driverXbox = new CommandXboxController(1);
   final CommandXboxController operatorXbox = new CommandXboxController(0);
-
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   
   private final IntakeDeploySubsystem intakeDeploy = new IntakeDeploySubsystem();
   private final IntakeRollersSubsystem intakeRollers = new IntakeRollersSubsystem();
@@ -48,15 +45,7 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    // new Trigger(m_exampleSubsystem::exampleCondition)
-    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-  }
+  private void configureBindings() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -65,6 +54,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return null;
   }
 }
