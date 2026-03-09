@@ -34,6 +34,7 @@ public class FeederSubsystem extends SubsystemBase {
     leftFeedMotor = new TalonFX(15, CANBus.roboRIO());
     leftFeedMotor.getConfigurator().refresh(feedMotorConfig);
     leftFeedMotor.getConfigurator().apply(feedMotorConfig);
+
     rightFeedMotor = new TalonFX(16, CANBus.roboRIO());
     rightFeedMotor.getConfigurator().refresh(feedMotorConfig);
     rightFeedMotor.getConfigurator().apply(feedMotorConfig);

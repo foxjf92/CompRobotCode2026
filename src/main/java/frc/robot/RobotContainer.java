@@ -19,8 +19,11 @@ import frc.robot.subsystems.IntakeRollersSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.IntakeDeploySubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,8 +33,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-  final CommandXboxController driverXbox = new CommandXboxController(1);
-  final CommandXboxController operatorXbox = new CommandXboxController(0);
+  final CommandXboxController driverController = new CommandXboxController(1);
+  final CommandXboxController operatorController = new CommandXboxController(0);
   
   private final IntakeDeploySubsystem intakeDeploy = new IntakeDeploySubsystem();
   private final IntakeRollersSubsystem intakeRollers = new IntakeRollersSubsystem();
@@ -41,7 +44,9 @@ public class RobotContainer {
 
   // Intake Commands
   Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.01);
+  Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.01);
   Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.01);
+  Command intakeRollersStill = new IntakeRollersFeedCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
   
@@ -51,14 +56,24 @@ public class RobotContainer {
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,0.01);
+  Command feederStill = new FeederCommand(feeder, 0.0);
+  Command feedDelay = new WaitCommand(0.5);
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.01);
+  Command launcherStill = new LauncherCommand(launcher, 0.0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    // Set default commands for subsystems
+    intakeDeploy.setDefaultCommand(intakeRetract);
+    intakeRollers.setDefaultCommand(intakeRollersIntake);
+    hopper.setDefaultCommand(hopperStill);
+    feeder.setDefaultCommand(feederFeed);
+    launcher.setDefaultCommand(launcherLaunch);
   }
 
   /**
@@ -70,7 +85,19 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {}
+  private void configureBindings() {
+    // Driver bindings
+    // driverController.leftBumper().onTrue(new InstantCommand(drivebase :: zeroGyro));
+
+    // Operator bindings
+    operatorController.rightBumper().onTrue(intakeExtend);
+    operatorController.leftBumper().onTrue(intakeRetract);
+    operatorController.rightTrigger().whileTrue(intakeRollersIntake);
+    operatorController.leftTrigger().whileTrue(intakeRollersReverse);
+    // When A is held: run launcher, and in parallel run a sequence that waits
+    // for feedDelay then starts feeder and hopper together.
+    operatorController.a().whileTrue(launcherLaunch.alongWith(feedDelay.andThen(feederFeed.alongWith(hopperFeed)))); 
+    }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
