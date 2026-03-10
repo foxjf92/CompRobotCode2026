@@ -49,6 +49,7 @@ public class RobotContainer {
   Command intakeRollersStill = new IntakeRollersFeedCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
+  // Command intakeDeployStill = new InstantCommand(intakeDeployHoldUp);
   
   // Hopper Commands
   Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.01);
@@ -69,11 +70,11 @@ public class RobotContainer {
     configureBindings();
 
     // Set default commands for subsystems
-    intakeDeploy.setDefaultCommand(intakeRetract);
-    intakeRollers.setDefaultCommand(intakeRollersIntake);
+    // intakeDeploy.setDefaultCommand(intakeDeployStill);
+    intakeRollers.setDefaultCommand(intakeRollersStill);
     hopper.setDefaultCommand(hopperStill);
-    feeder.setDefaultCommand(feederFeed);
-    launcher.setDefaultCommand(launcherLaunch);
+    feeder.setDefaultCommand(feederStill);
+    launcher.setDefaultCommand(launcherStill);
   }
 
   /**

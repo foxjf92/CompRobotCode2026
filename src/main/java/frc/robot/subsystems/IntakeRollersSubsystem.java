@@ -18,10 +18,10 @@ public class IntakeRollersSubsystem extends SubsystemBase {
         .idleMode(IdleMode.kBrake)
         .voltageCompensation(12);
 
-    leftRollerMotor = new SparkFlex(17, MotorType.kBrushless);
+    leftRollerMotor = new SparkFlex(14, MotorType.kBrushless);
     leftRollerMotor.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
 
-    rightRollerMotor = new SparkFlex(18, MotorType.kBrushless);
+    rightRollerMotor = new SparkFlex(15, MotorType.kBrushless);
     rightRollerMotor.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
   }
 
