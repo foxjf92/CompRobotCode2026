@@ -57,7 +57,7 @@ public class RobotContainer {
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,0.01);
   Command feederStill = new FeederCommand(feeder, 0.0);
-  Command feedDelay = new WaitCommand(0.5);
+  Command feedDelay = new WaitCommand(0.5); // TODO check how long launcher takes to spin up and adjust this delay accordingly
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.01);
