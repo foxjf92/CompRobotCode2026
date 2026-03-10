@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.commands.Autos;
 import frc.robot.commands.FeederCommand;
 import frc.robot.commands.HopperRollersFeedCommand;
 import frc.robot.commands.HopperRollersStillCommand;
@@ -19,11 +18,9 @@ import frc.robot.subsystems.IntakeRollersSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
 import frc.robot.subsystems.IntakeDeploySubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.Commands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

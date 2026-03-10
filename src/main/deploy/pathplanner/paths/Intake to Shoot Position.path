@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.273741339491918,
+        "y": 5.993533487297921
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.3986928063694837,
+        "y": 5.776999122992519
+      },
+      "isLocked": false,
+      "linkedName": "Intake Point"
+    },
+    {
+      "anchor": {
+        "x": 2.551501154734412,
+        "y": 4.003579676674366
+      },
+      "prevControl": {
+        "x": 2.060482637120363,
+        "y": 4.878170904254485
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Shoot Point"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

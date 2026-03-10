@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.46269053117783,
+        "y": 0.5682909930715936
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.308159023408333,
+        "y": 0.6039566472336704
+      },
+      "isLocked": false,
+      "linkedName": "Left Start Point"
+    },
+    {
+      "anchor": {
+        "x": 0.6085984848484853,
+        "y": 0.6795580808080808
+      },
+      "prevControl": {
+        "x": 0.9382210821576928,
+        "y": 0.6684287711349768
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Human feeder point"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}
