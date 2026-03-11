@@ -18,10 +18,10 @@ public class IntakeRollersSubsystem extends SubsystemBase {
         .idleMode(IdleMode.kBrake)
         .voltageCompensation(12);
 
-    leftRollerMotor = new SparkFlex(14, MotorType.kBrushless);
+    leftRollerMotor = new SparkFlex(14, MotorType.kBrushless); // TODO set CAN ID on hardware and in code
     leftRollerMotor.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
 
-    rightRollerMotor = new SparkFlex(15, MotorType.kBrushless);
+    rightRollerMotor = new SparkFlex(15, MotorType.kBrushless); // TODO set CAN ID on hardware and in code
     rightRollerMotor.configure(rollerConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
   }
 
