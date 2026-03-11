@@ -23,9 +23,9 @@ public class HopperSubsystem extends SubsystemBase {
       .idleMode(IdleMode.kBrake)
       .voltageCompensation(12);
 
-    hopperLeftNeo = new SparkMax(2, MotorType.kBrushless);
+    hopperLeftNeo = new SparkMax(9, MotorType.kBrushless);
     hopperLeftNeo.configure(hopperNeoConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
-    hopperRightNeo = new SparkMax(3, MotorType.kBrushless);
+    hopperRightNeo = new SparkMax(12, MotorType.kBrushless);
     hopperRightNeo.configure(hopperNeoConfig,com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
   }
 
