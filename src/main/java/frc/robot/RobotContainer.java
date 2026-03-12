@@ -87,14 +87,16 @@ public class RobotContainer {
     // Driver bindings
     // driverController.leftBumper().onTrue(new InstantCommand(drivebase :: zeroGyro));
 
-    // Operator bindings
-    operatorController.rightBumper().onTrue(intakeExtend);
-    operatorController.leftBumper().onTrue(intakeRetract);
-    operatorController.rightTrigger().whileTrue(intakeRollersIntake);
-    operatorController.leftTrigger().whileTrue(intakeRollersReverse);
-    // When A is held: run launcher, and in parallel run a sequence that waits
-    // for feedDelay then starts feeder and hopper together.
-    operatorController.a().whileTrue(launcherLaunch.alongWith(feedDelay.andThen(feederFeed.alongWith(hopperFeed)))); 
+    operatorController.rightBumper().onTrue(launcherLaunch);
+
+    // // Operator bindings
+    // operatorController.rightBumper().onTrue(intakeExtend);
+    // operatorController.leftBumper().onTrue(intakeRetract);
+    // operatorController.rightTrigger().whileTrue(intakeRollersIntake);
+    // operatorController.leftTrigger().whileTrue(intakeRollersReverse);
+    // // When A is held: run launcher, and in parallel run a sequence that waits
+    // // for feedDelay then starts feeder and hopper together.
+    // operatorController.a().whileTrue(launcherLaunch.alongWith(feedDelay.andThen(feederFeed.alongWith(hopperFeed)))); 
     }
 
   /**
