@@ -13,15 +13,15 @@ public class IntakeDeploySubsystem extends SubsystemBase {
   private final SparkMax leftOutNeo;
   private final SparkMax rightOutNeo;
   private final SparkMaxConfig intakeDeployConfig;
-  private final RelativeEncoder leftEncoder;
+  public final RelativeEncoder leftEncoder;
 
   public double currentPosition;
 
   public IntakeDeploySubsystem() {
     intakeDeployConfig = new SparkMaxConfig();
     intakeDeployConfig
-        .smartCurrentLimit(5)
-        .idleMode(IdleMode.kBrake);
+        .smartCurrentLimit(15)
+        .idleMode(IdleMode.kCoast);
 
     leftOutNeo = new SparkMax(10, MotorType.kBrushless);
     leftOutNeo.configure(intakeDeployConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
@@ -31,24 +31,29 @@ public class IntakeDeploySubsystem extends SubsystemBase {
     leftEncoder = leftOutNeo.getEncoder();
   }
 
-  public void extendIntake() {
-    leftOutNeo.set(0.1);
-    rightOutNeo.set(-0.1);
-  }
+  // public void extendIntake() {
+  //   leftOutNeo.set(0.1);
+  //   rightOutNeo.set(-0.1);
+  // }
 
-  public void holdDownIntake() {
-    leftOutNeo.set(0.1);
-    rightOutNeo.set(-0.1);
-  }
+  // public void holdDownIntake() {
+  //   leftOutNeo.set(0.1);
+  //   rightOutNeo.set(-0.1);
+  // }
 
-  public void retractIntake() {
-    leftOutNeo.set(-0.1);
-    rightOutNeo.set(0.1);
-  }
+  // public void retractIntake() {
+  //   leftOutNeo.set(-0.1);
+  //   rightOutNeo.set(0.1);
+  // }
 
-  public void holdUpIntake() {
-    leftOutNeo.set(-0.1);
-    rightOutNeo.set(0.1); 
+  // public void holdUpIntake() {
+  //   leftOutNeo.set(-0.1);
+  //   rightOutNeo.set(0.1); 
+  // }
+
+  public void moveIntake(double intakeSpeed) {
+    leftOutNeo.set(intakeSpeed);
+    rightOutNeo.set(-intakeSpeed);
   }
 
   @Override
@@ -56,6 +61,7 @@ public class IntakeDeploySubsystem extends SubsystemBase {
     currentPosition = leftEncoder.getPosition();
     // Publish left encoder position
     SmartDashboard.putNumber("IntakeDeployLeftPosition", currentPosition);
+    // SmartDashboard.putNumber("Retract Control effort", controlEffort);
 
   }
 }
