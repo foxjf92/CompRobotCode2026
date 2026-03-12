@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.FeederCommand;
 import frc.robot.commands.HopperRollersFeedCommand;
 import frc.robot.commands.HopperRollersStillCommand;
@@ -12,12 +13,21 @@ import frc.robot.commands.IntakeRetractCommand;
 import frc.robot.commands.IntakeRollersFeedCommand;
 import frc.robot.commands.IntakeRollersIntakeCommand;
 import frc.robot.commands.LauncherCommand;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.FeederSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeRollersSubsystem;
 import frc.robot.subsystems.LauncherSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+import swervelib.SwerveInputStream;
 import frc.robot.subsystems.IntakeDeploySubsystem;
+
+import java.io.File;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,6 +43,9 @@ public class RobotContainer {
   final CommandXboxController driverController = new CommandXboxController(1);
   final CommandXboxController operatorController = new CommandXboxController(0);
   
+  private final SwerveSubsystem drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                                                                            "swerve"));
+                                                                                
   private final IntakeDeploySubsystem intakeDeploy = new IntakeDeploySubsystem();
   private final IntakeRollersSubsystem intakeRollers = new IntakeRollersSubsystem();
   private final HopperSubsystem hopper = new HopperSubsystem();
@@ -49,17 +62,47 @@ public class RobotContainer {
   // Command intakeDeployStill = new InstantCommand(intakeDeployHoldUp);
   
   // Hopper Commands
-  Command hopperFeed = new HopperRollersFeedCommand(hopper, 1.0);
+  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.5);
   Command hopperStill = new HopperRollersStillCommand(hopper);
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,1.0);
+  Command feederPass = new FeederCommand(feeder, 0.8);
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.5); // TODO check how long launcher takes to spin up and adjust this delay accordingly
 
   // Launcher Commands
-  Command launcherLaunch = new LauncherCommand(launcher, 1.0);
+  Command launcherLaunch = new LauncherCommand(launcher, 0.5);
+  Command launcherPass = new LauncherCommand(launcher,0.8);
   Command launcherStill = new LauncherCommand(launcher, 0.0);
+
+  //Swerve Commands
+
+  SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+                                                                () -> driverController.getLeftY() * -1,
+                                                                () -> driverController.getLeftX() * -1)
+                                                            .withControllerRotationAxis(driverController::getRightX)
+                                                            .deadband(OperatorConstants.DEADBAND)
+                                                            .scaleTranslation(0.8)
+                                                            .allianceRelativeControl(true);
+
+  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(driverController::getRightX,
+                                                                                             driverController::getRightY)
+                                                           .headingWhile(true);
+
+  Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
+  Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+  Command driveWithHeadingSnaps = new AbsoluteDriveAdv(drivebase,
+                                              () -> -MathUtil.applyDeadband(driverController.getLeftY(),
+                                                                          OperatorConstants.DEADBAND),
+                                              () -> -MathUtil.applyDeadband(driverController.getLeftX(),
+                                                                          OperatorConstants.DEADBAND),
+                                              () -> MathUtil.applyDeadband(driverController.getRightX(),
+                                                                          OperatorConstants.RIGHT_X_DEADBAND),
+                                              driverController.getHID()::getYButtonPressed,
+                                              driverController.getHID()::getAButtonPressed,
+                                              driverController.getHID()::getXButtonPressed,
+                                              driverController.getHID()::getBButtonPressed);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,6 +111,7 @@ public class RobotContainer {
 
     // Set default commands for subsystems
     // intakeDeploy.setDefaultCommand(intakeDeployStill);
+    drivebase.setDefaultCommand(driveWithHeadingSnaps);
     intakeRollers.setDefaultCommand(intakeRollersStill);
     hopper.setDefaultCommand(hopperStill);
     feeder.setDefaultCommand(feederStill);
@@ -85,7 +129,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Driver bindings
-    // driverController.leftBumper().onTrue(new InstantCommand(drivebase :: zeroGyro));
+    driverController.leftBumper().onTrue(new InstantCommand(drivebase :: zeroGyro));
 
     // operatorController.rightBumper().whileTrue(hopperFeed);
     // operatorController.leftBumper().whileTrue(feederFeed);
@@ -95,8 +139,8 @@ public class RobotContainer {
     // operatorController.leftBumper().onTrue(intakeRetract);
     // operatorController.rightTrigger().whileTrue(intakeRollersIntake);
     // operatorController.leftTrigger().whileTrue(intakeRollersReverse);
-    // // When A is held: run launcher, and in parallel run a sequence that waits
-    // // for feedDelay then starts feeder and hopper together.
+    // When A is held: run launcher, and in parallel run a sequence that waits
+    // for feedDelay then starts feeder and hopper together.
     operatorController.a().whileTrue(launcherLaunch.alongWith(feedDelay.andThen(feederFeed.alongWith(hopperFeed)))); 
     }
 

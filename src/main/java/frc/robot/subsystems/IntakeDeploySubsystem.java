@@ -20,7 +20,7 @@ public class IntakeDeploySubsystem extends SubsystemBase {
   public IntakeDeploySubsystem() {
     intakeDeployConfig = new SparkMaxConfig();
     intakeDeployConfig
-        .smartCurrentLimit(1)
+        .smartCurrentLimit(5)
         .idleMode(IdleMode.kBrake);
 
     leftOutNeo = new SparkMax(10, MotorType.kBrushless);
@@ -32,23 +32,23 @@ public class IntakeDeploySubsystem extends SubsystemBase {
   }
 
   public void extendIntake() {
-    leftOutNeo.set(0.01);
-    rightOutNeo.set(-0.01);
+    leftOutNeo.set(0.1);
+    rightOutNeo.set(-0.1);
   }
 
   public void holdDownIntake() {
-    leftOutNeo.set(0.01);
-    rightOutNeo.set(-0.01);
+    leftOutNeo.set(0.1);
+    rightOutNeo.set(-0.1);
   }
 
   public void retractIntake() {
-    leftOutNeo.set(-0.01);
-    rightOutNeo.set(0.01);
+    leftOutNeo.set(-0.1);
+    rightOutNeo.set(0.1);
   }
 
   public void holdUpIntake() {
-    leftOutNeo.set(-0.01);
-    rightOutNeo.set(0.01); 
+    leftOutNeo.set(-0.1);
+    rightOutNeo.set(0.1); 
   }
 
   @Override

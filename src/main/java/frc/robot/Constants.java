@@ -17,11 +17,11 @@ import swervelib.math.Matter;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
+   public static final double ROBOT_MASS = (115) * 0.453592; // 32lbs * kg per pound
   public static final Matter CHASSIS    = new Matter(new Translation3d(Units.inchesToMeters(3.18), 0, Units.inchesToMeters(8.85)), ROBOT_MASS);
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
   // public static final double MAX_SPEED  = Units.feetToMeters(16.6); //Actual max speed
-  public static final double MAX_SPEED  = Units.feetToMeters(12); // Slowed down max speed
+  public static final double maxSpeed  = Units.feetToMeters(12); // Slowed down max speed
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
 
