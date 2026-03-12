@@ -25,8 +25,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -52,7 +54,10 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase
 {
-
+  AnalogInput analog0 = new AnalogInput(0);
+  AnalogInput analog1 = new AnalogInput(1);
+  AnalogInput analog2 = new AnalogInput(2);
+  AnalogInput analog3 = new AnalogInput(3);
   /**
    * Swerve drive object.
    */
@@ -141,6 +146,10 @@ public class SwerveSubsystem extends SubsystemBase
     //   swerveDrive.updateOdometry();
     //   vision.updatePoseEstimation(swerveDrive);
     // }
+    SmartDashboard.putData(analog0);
+    SmartDashboard.putData(analog1);
+    SmartDashboard.putData(analog2);
+    SmartDashboard.putData(analog3);
   }
 
   @Override

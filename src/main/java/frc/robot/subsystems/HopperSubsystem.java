@@ -19,7 +19,7 @@ public class HopperSubsystem extends SubsystemBase {
     hopperNeoConfig = new SparkMaxConfig();
 
     hopperNeoConfig
-      .smartCurrentLimit(1)
+      .smartCurrentLimit(60)
       .idleMode(IdleMode.kBrake)
       .voltageCompensation(12);
 

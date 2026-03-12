@@ -22,7 +22,7 @@ public class LauncherSubsystem extends SubsystemBase {
     launcherVortexConfig = new SparkFlexConfig();
         
     launcherVortexConfig
-      .smartCurrentLimit(1)
+      .smartCurrentLimit(120)
       .idleMode(IdleMode.kBrake)
       .voltageCompensation(12);
 

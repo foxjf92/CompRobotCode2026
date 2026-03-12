@@ -40,25 +40,25 @@ public class RobotContainer {
   private final LauncherSubsystem launcher = new LauncherSubsystem();
 
   // Intake Commands
-  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.01);
-  Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.01);
-  Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.01);
-  Command intakeRollersStill = new IntakeRollersFeedCommand(intakeRollers, 0.0);
+  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.5);
+  Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
+  Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.5);
+  Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
   // Command intakeDeployStill = new InstantCommand(intakeDeployHoldUp);
   
   // Hopper Commands
-  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.01);
+  Command hopperFeed = new HopperRollersFeedCommand(hopper, 1.0);
   Command hopperStill = new HopperRollersStillCommand(hopper);
 
   // Feeder Commands
-  Command feederFeed = new FeederCommand(feeder,0.01);
+  Command feederFeed = new FeederCommand(feeder,1.0);
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.5); // TODO check how long launcher takes to spin up and adjust this delay accordingly
 
   // Launcher Commands
-  Command launcherLaunch = new LauncherCommand(launcher, 0.01);
+  Command launcherLaunch = new LauncherCommand(launcher, 1.0);
   Command launcherStill = new LauncherCommand(launcher, 0.0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -87,7 +87,8 @@ public class RobotContainer {
     // Driver bindings
     // driverController.leftBumper().onTrue(new InstantCommand(drivebase :: zeroGyro));
 
-    operatorController.rightBumper().onTrue(launcherLaunch);
+    // operatorController.rightBumper().whileTrue(hopperFeed);
+    // operatorController.leftBumper().whileTrue(feederFeed);
 
     // // Operator bindings
     // operatorController.rightBumper().onTrue(intakeExtend);
@@ -96,7 +97,7 @@ public class RobotContainer {
     // operatorController.leftTrigger().whileTrue(intakeRollersReverse);
     // // When A is held: run launcher, and in parallel run a sequence that waits
     // // for feedDelay then starts feeder and hopper together.
-    // operatorController.a().whileTrue(launcherLaunch.alongWith(feedDelay.andThen(feederFeed.alongWith(hopperFeed)))); 
+    operatorController.a().whileTrue(launcherLaunch.alongWith(feedDelay.andThen(feederFeed.alongWith(hopperFeed)))); 
     }
 
   /**
