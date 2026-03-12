@@ -24,6 +24,8 @@ import frc.robot.subsystems.IntakeDeploySubsystem;
 
 import java.io.File;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -59,22 +61,31 @@ public class RobotContainer {
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
-  // Command intakeDeployStill = new InstantCommand(intakeDeployHoldUp);
-  
+  Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5).withTimeout(1.0);
+  Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0).withTimeout(1.0);
+  Command intakeExtendAuto = new IntakeExtendCommand(intakeDeploy).withTimeout(1.0);
+  Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy).withTimeout(1.0);
+
   // Hopper Commands
   Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.5);
   Command hopperStill = new HopperRollersStillCommand(hopper);
+  Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5).withTimeout(1.0);
+  Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,1.0);
   Command feederPass = new FeederCommand(feeder, 0.8);
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.5); // TODO check how long launcher takes to spin up and adjust this delay accordingly
+  Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
+  Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.5);
   Command launcherPass = new LauncherCommand(launcher,0.8);
   Command launcherStill = new LauncherCommand(launcher, 0.0);
+  Command launcheLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
+  Command launcherStillAuto = new LauncherCommand(launcher, 0.0).withTimeout(1.0);
 
   //Swerve Commands
 
@@ -108,6 +119,18 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    // PathPlanner Commands
+    NamedCommands.registerCommand("intakeDeployAuto", intakeExtendAuto);
+    NamedCommands.registerCommand("intakeRetractAuto", intakeRetractAuto);
+    NamedCommands.registerCommand("intakeRollersIntakeAuto", intakeRollersIntakeAuto);
+    NamedCommands.registerCommand("intakeRollersStillAuto", intakeRollersStillAuto);
+    NamedCommands.registerCommand("feederFeedAuto", feederFeedAuto);
+    NamedCommands.registerCommand("feederStillAuto", feederStillAuto);
+    NamedCommands.registerCommand("hopperFeedAuto", hopperFeedAuto);
+    NamedCommands.registerCommand("hopperStillAuto", hopperStillAuto);
+    NamedCommands.registerCommand("launcherLaunchAuto", launcheLaunchAuto);
+    NamedCommands.registerCommand("launcherStillAuto", launcherStillAuto);
 
     // Set default commands for subsystems
     // intakeDeploy.setDefaultCommand(intakeDeployStill);
