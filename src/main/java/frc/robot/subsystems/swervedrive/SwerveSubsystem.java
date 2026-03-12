@@ -54,10 +54,10 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase
 {
-  AnalogInput analog0 = new AnalogInput(0);
-  AnalogInput analog1 = new AnalogInput(1);
-  AnalogInput analog2 = new AnalogInput(2);
-  AnalogInput analog3 = new AnalogInput(3);
+  // AnalogInput analog0 = new AnalogInput(0);
+  // AnalogInput analog1 = new AnalogInput(1);
+  // AnalogInput analog2 = new AnalogInput(2);
+  // AnalogInput analog3 = new AnalogInput(3);
   /**
    * Swerve drive object.
    */
@@ -146,10 +146,10 @@ public class SwerveSubsystem extends SubsystemBase
     //   swerveDrive.updateOdometry();
     //   vision.updatePoseEstimation(swerveDrive);
     // }
-    SmartDashboard.putData(analog0);
-    SmartDashboard.putData(analog1);
-    SmartDashboard.putData(analog2);
-    SmartDashboard.putData(analog3);
+    // SmartDashboard.putData(analog0);
+    // SmartDashboard.putData(analog1);
+    // SmartDashboard.putData(analog2);
+    // SmartDashboard.putData(analog3);
   }
 
   @Override
