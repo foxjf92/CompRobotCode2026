@@ -57,7 +57,7 @@ public class RobotContainer {
   private final LauncherSubsystem launcher = new LauncherSubsystem();
 
   // Intake Commands
-  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.45);
+  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.55);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
   Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.5);
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
@@ -77,7 +77,7 @@ public class RobotContainer {
   Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
 
   // Feeder Commands
-  Command feederFeed = new FeederCommand(feeder,0.4);
+  Command feederFeed = new FeederCommand(feeder,0.5);
   Command feederPass = new FeederCommand(feeder, 0.3);
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.5); // TODO check how long launcher takes to spin up and adjust this delay accordingly

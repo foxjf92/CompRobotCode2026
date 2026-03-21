@@ -35,7 +35,7 @@ public class LauncherSubsystem extends SubsystemBase {
   }
 
   public void spinLauncher(double speed) {
-    // launcherLeftVortex.set(speed);
+    launcherLeftVortex.set(speed);
     launcherRightVortex.set(-speed);
   }
 
