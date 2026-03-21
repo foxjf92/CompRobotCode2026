@@ -23,7 +23,7 @@ public class LauncherSubsystem extends SubsystemBase {
         
     launcherVortexConfig
       .smartCurrentLimit(120)
-      .idleMode(IdleMode.kBrake)
+      .idleMode(IdleMode.kCoast)
       .voltageCompensation(12);
 
     launcherLeftVortex = new SparkFlex(20, MotorType.kBrushless); // TODO set CAN ID on hardware and in code
@@ -35,7 +35,7 @@ public class LauncherSubsystem extends SubsystemBase {
   }
 
   public void spinLauncher(double speed) {
-    launcherLeftVortex.set(speed);
+    // launcherLeftVortex.set(speed);
     launcherRightVortex.set(-speed);
   }
 

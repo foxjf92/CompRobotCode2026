@@ -57,7 +57,7 @@ public class RobotContainer {
   private final LauncherSubsystem launcher = new LauncherSubsystem();
 
   // Intake Commands
-  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.5);
+  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.45);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
   Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.5);
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
@@ -71,21 +71,21 @@ public class RobotContainer {
   // Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy).withTimeout(1.0);
 
   // Hopper Commands
-  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.75);
+  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.5 );
   Command hopperStill = new HopperRollersStillCommand(hopper);
   Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5).withTimeout(1.0);
   Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
 
   // Feeder Commands
-  Command feederFeed = new FeederCommand(feeder,1.0);
-  Command feederPass = new FeederCommand(feeder, 0.8);
+  Command feederFeed = new FeederCommand(feeder,0.4);
+  Command feederPass = new FeederCommand(feeder, 0.3);
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.5); // TODO check how long launcher takes to spin up and adjust this delay accordingly
   Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
   Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
 
   // Launcher Commands
-  Command launcherLaunch = new LauncherCommand(launcher, 0.75);
+  Command launcherLaunch = new LauncherCommand(launcher, 0.5);
   Command launcherPass = new LauncherCommand(launcher,0.8);
   Command launcherStill = new LauncherCommand(launcher, 0.0);
   Command launcheLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
@@ -138,7 +138,7 @@ public class RobotContainer {
 
     // Set default commands for subsystems
     // intakeDeploy.setDefaultCommand(intakeDeployStill);
-    drivebase.setDefaultCommand(driveWithHeadingSnaps);
+    drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
     intakeRollers.setDefaultCommand(intakeRollersStill);
     hopper.setDefaultCommand(hopperStill);
     feeder.setDefaultCommand(feederStill);
@@ -162,7 +162,7 @@ public class RobotContainer {
     // operatorController.rightBumper().whileTrue(hopperFeed);
     // operatorController.leftBumper().whileTrue(feederFeed);
 
-    // // Operator bindings
+    // Operator bindings
     operatorController.rightBumper().onTrue(intakeExtend);
     operatorController.leftBumper().onTrue(intakeRetract);
     operatorController.rightTrigger().whileTrue(intakeRollersIntake);
@@ -170,7 +170,10 @@ public class RobotContainer {
     // When A is held: run launcher, and in parallel run a sequence that waits
     // for feedDelay then starts feeder and hopper together.
     operatorController.a().whileTrue(launcherLaunch.alongWith(feedDelay.andThen(feederFeed.alongWith(hopperFeed)))); 
-    }
+    
+    // // Debugging commands
+    // operatorController.rightBumper().whileTrue(launcherLaunch);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

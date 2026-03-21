@@ -23,9 +23,9 @@ public class FeederSubsystem extends SubsystemBase {
       .MotorOutput.withNeutralMode(com.ctre.phoenix6.signals.NeutralModeValue.Brake);
 
     feedMotorCurrentLimits = new CurrentLimitsConfigs();
-    feedMotorCurrentLimits.SupplyCurrentLimit = 60;         // limits power consumption
+    feedMotorCurrentLimits.SupplyCurrentLimit = 30;         // limits power consumption
     feedMotorCurrentLimits.SupplyCurrentLimitEnable = true; 
-    feedMotorCurrentLimits.StatorCurrentLimit = 100;         // limits acceleration and peak torque, top
+    feedMotorCurrentLimits.StatorCurrentLimit = 50;         // limits acceleration and peak torque, top
     feedMotorCurrentLimits.StatorCurrentLimitEnable = true;
 
     feedMotorConfig

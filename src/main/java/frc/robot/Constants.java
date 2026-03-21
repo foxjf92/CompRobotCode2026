@@ -21,7 +21,7 @@ public final class Constants {
   public static final Matter CHASSIS    = new Matter(new Translation3d(Units.inchesToMeters(3.18), 0, Units.inchesToMeters(8.85)), ROBOT_MASS);
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
   // public static final double MAX_SPEED  = Units.feetToMeters(16.6); //Actual max speed
-  public static final double maxSpeed  = Units.feetToMeters(12); // Slowed down max speed
+  public static final double maxSpeed  = Units.feetToMeters(16); // Slowed down max speed
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
 
@@ -46,6 +46,6 @@ public final class Constants {
 
   public static class IntakeDeployConstants{
     public static double intakeRetractPosition = 0.1;
-    public static double intakeExtendPosition = 10.0;
+    public static double intakeExtendPosition = 9.75;
   }
 }
