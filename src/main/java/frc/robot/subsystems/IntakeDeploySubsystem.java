@@ -53,7 +53,7 @@ public class IntakeDeploySubsystem extends SubsystemBase {
 
   public void moveIntake(double intakeSpeed) {
     leftOutNeo.set(intakeSpeed);
-    rightOutNeo.set(-intakeSpeed);
+    rightOutNeo.set(-0.8*intakeSpeed);
   }
 
   @Override

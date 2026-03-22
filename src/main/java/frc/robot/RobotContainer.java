@@ -10,6 +10,7 @@ import frc.robot.commands.HopperRollersFeedCommand;
 import frc.robot.commands.HopperRollersStillCommand;
 import frc.robot.commands.IntakeExtendCommand;
 import frc.robot.commands.IntakeRetractCommand;
+import frc.robot.commands.IntakeRollersExtendCommand;
 // import frc.robot.commands.IntakeExtendCommand;
 // import frc.robot.commands.IntakeRetractCommand;
 import frc.robot.commands.IntakeRollersFeedCommand;
@@ -60,11 +61,12 @@ public class RobotContainer {
   Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.55);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
   Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.5);
+  Command intakeRollersDeployIntake = new IntakeRollersExtendCommand(intakeRollers, -0.1);
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
-  Command intakeLaunchRetract = new IntakeRetractCommand(intakeDeploy); // TODO update PID values for retracting during launch sequence
-  Command intakeLaunchRetractDelay = new WaitCommand(null);
+  Command intakeLaunchRetract = new IntakeRetractCommand(intakeDeploy); 
+  Command intakeLaunchRetractDelay = new WaitCommand(0.5);
   // Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   // Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
   // Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5).withTimeout(1.0);
@@ -73,21 +75,21 @@ public class RobotContainer {
   // Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy).withTimeout(1.0);
 
   // Hopper Commands
-  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.5 );
+  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.6);
   Command hopperStill = new HopperRollersStillCommand(hopper);
   // Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5).withTimeout(1.0);
   // Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
 
   // Feeder Commands
-  Command feederFeed = new FeederCommand(feeder,0.5);
+  Command feederFeed = new FeederCommand(feeder,0.6);
   Command feederPass = new FeederCommand(feeder, 0.3);
   Command feederStill = new FeederCommand(feeder, 0.0);
-  Command feedDelay = new WaitCommand(0.5); // TODO check how long launcher takes to spin up and adjust this delay accordingly
+  Command feedDelay = new WaitCommand(0.2); // TODO check how long launcher takes to spin up and adjust this delay accordingly
   // Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
   // Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
 
   // Launcher Commands
-  Command launcherLaunch = new LauncherCommand(launcher, 0.5);
+  Command launcherLaunch = new LauncherCommand(launcher, 0.50);
   Command launcherPass = new LauncherCommand(launcher,0.8);
   Command launcherStill = new LauncherCommand(launcher, 0.0);
   // Command launcheLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
@@ -166,16 +168,18 @@ public class RobotContainer {
 
     // Operator bindings
     operatorController.rightBumper().onTrue(intakeExtend);
+    operatorController.rightBumper().onTrue(intakeRollersDeployIntake.alongWith(new WaitCommand(1.0)));
     operatorController.leftBumper().onTrue(intakeRetract);
     operatorController.rightTrigger().whileTrue(intakeRollersIntake);
     operatorController.leftTrigger().whileTrue(intakeRollersReverse);
+
     // When A is held: run launcher, and in parallel run a sequence that waits
-    // for feedDelay then starts feeder and hopper together.
     operatorController.a().whileTrue(launcherLaunch
                                       .alongWith(feedDelay.andThen(feederFeed
                                                             .alongWith(hopperFeed)
                                                             .alongWith(intakeRollersFeed)
-                                                            .alongWith(null)))); 
+                                                            .alongWith(intakeLaunchRetractDelay
+                                                              .andThen(intakeLaunchRetract))))); 
     
     // // Debugging commands
     // operatorController.rightBumper().whileTrue(launcherLaunch);

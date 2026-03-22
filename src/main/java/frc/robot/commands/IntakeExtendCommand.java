@@ -12,7 +12,7 @@ public class IntakeExtendCommand extends Command{
     private int targetPosition; //Symbolic arm position where 1 = ground intake, 2 = amp position, 3 = launch position
     public static double wristSetpoint = Constants.IntakeDeployConstants.intakeExtendPosition; // Encoder position value that corresponds to arm position
 
-    public final double kP = 0.055; //2nd 
+    public final double kP = 0.065; //2nd 
     public final double kI = 0.000; //4th
     public final double kD = 0.004; //3rd
     public final double arbFF = 0.04; // Start Here
