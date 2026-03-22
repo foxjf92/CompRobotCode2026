@@ -22,6 +22,6 @@ public class IntakeRollersIntakeCommand extends Command{
 
   @Override
   public void execute(){
-    m_intakeRollers.spinRollersIntake(intakeSpeed);
+    m_intakeRollers.spinRollersCollect(intakeSpeed);
   }
 }

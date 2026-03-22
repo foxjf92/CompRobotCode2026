@@ -63,33 +63,35 @@ public class RobotContainer {
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
+  Command intakeLaunchRetract = new IntakeRetractCommand(intakeDeploy); // TODO update PID values for retracting during launch sequence
+  Command intakeLaunchRetractDelay = new WaitCommand(null);
   // Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   // Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
-  Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5).withTimeout(1.0);
-  Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0).withTimeout(1.0);
+  // Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5).withTimeout(1.0);
+  // Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0).withTimeout(1.0);
   // Command intakeExtendAuto = new IntakeExtendCommand(intakeDeploy).withTimeout(1.0);
   // Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy).withTimeout(1.0);
 
   // Hopper Commands
   Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.5 );
   Command hopperStill = new HopperRollersStillCommand(hopper);
-  Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5).withTimeout(1.0);
-  Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
+  // Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5).withTimeout(1.0);
+  // Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,0.5);
   Command feederPass = new FeederCommand(feeder, 0.3);
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.5); // TODO check how long launcher takes to spin up and adjust this delay accordingly
-  Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
-  Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
+  // Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
+  // Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.5);
   Command launcherPass = new LauncherCommand(launcher,0.8);
   Command launcherStill = new LauncherCommand(launcher, 0.0);
-  Command launcheLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
-  Command launcherStillAuto = new LauncherCommand(launcher, 0.0).withTimeout(1.0);
+  // Command launcheLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
+  // Command launcherStillAuto = new LauncherCommand(launcher, 0.0).withTimeout(1.0);
 
   //Swerve Commands
 
@@ -127,14 +129,14 @@ public class RobotContainer {
     // PathPlanner Commands
     // NamedCommands.registerCommand("intakeDeployAuto", intakeExtendAuto);
     // NamedCommands.registerCommand("intakeRetractAuto", intakeRetractAuto);
-    NamedCommands.registerCommand("intakeRollersIntakeAuto", intakeRollersIntakeAuto);
-    NamedCommands.registerCommand("intakeRollersStillAuto", intakeRollersStillAuto);
-    NamedCommands.registerCommand("feederFeedAuto", feederFeedAuto);
-    NamedCommands.registerCommand("feederStillAuto", feederStillAuto);
-    NamedCommands.registerCommand("hopperFeedAuto", hopperFeedAuto);
-    NamedCommands.registerCommand("hopperStillAuto", hopperStillAuto);
-    NamedCommands.registerCommand("launcherLaunchAuto", launcheLaunchAuto);
-    NamedCommands.registerCommand("launcherStillAuto", launcherStillAuto);
+    // NamedCommands.registerCommand("intakeRollersIntakeAuto", intakeRollersIntakeAuto);
+    // NamedCommands.registerCommand("intakeRollersStillAuto", intakeRollersStillAuto);
+    // NamedCommands.registerCommand("feederFeedAuto", feederFeedAuto);
+    // NamedCommands.registerCommand("feederStillAuto", feederStillAuto);
+    // NamedCommands.registerCommand("hopperFeedAuto", hopperFeedAuto);
+    // NamedCommands.registerCommand("hopperStillAuto", hopperStillAuto);
+    // NamedCommands.registerCommand("launcherLaunchAuto", launcheLaunchAuto);
+    // NamedCommands.registerCommand("launcherStillAuto", launcherStillAuto);
 
     // Set default commands for subsystems
     // intakeDeploy.setDefaultCommand(intakeDeployStill);
@@ -143,7 +145,7 @@ public class RobotContainer {
     hopper.setDefaultCommand(hopperStill);
     feeder.setDefaultCommand(feederStill);
     launcher.setDefaultCommand(launcherStill);
-    intakeDeploy.setDefaultCommand(intakeRetract);
+    intakeDeploy.setDefaultCommand(intakeRetract); //TODO change this at some point to be based off auto end state? No default command but schedule autons?
   }
 
   /**
@@ -169,7 +171,11 @@ public class RobotContainer {
     operatorController.leftTrigger().whileTrue(intakeRollersReverse);
     // When A is held: run launcher, and in parallel run a sequence that waits
     // for feedDelay then starts feeder and hopper together.
-    operatorController.a().whileTrue(launcherLaunch.alongWith(feedDelay.andThen(feederFeed.alongWith(hopperFeed)))); 
+    operatorController.a().whileTrue(launcherLaunch
+                                      .alongWith(feedDelay.andThen(feederFeed
+                                                            .alongWith(hopperFeed)
+                                                            .alongWith(intakeRollersFeed)
+                                                            .alongWith(null)))); 
     
     // // Debugging commands
     // operatorController.rightBumper().whileTrue(launcherLaunch);

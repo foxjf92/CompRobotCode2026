@@ -12,9 +12,9 @@ public class IntakeRollersFeedCommand extends Command{
   public double intakeFeedSpeed; 
 
   public IntakeRollersFeedCommand(IntakeRollersSubsystem intakeRollers, double speed){
-      m_intakeRollers = intakeRollers;
-      intakeFeedSpeed = speed; 
-      addRequirements(m_intakeRollers);
+    m_intakeRollers = intakeRollers;
+    intakeFeedSpeed = speed; 
+    addRequirements(m_intakeRollers);
   }
 
   @Override
@@ -22,6 +22,6 @@ public class IntakeRollersFeedCommand extends Command{
 
   @Override
   public void execute(){
-      m_intakeRollers.spinRollersIntake(intakeFeedSpeed);
+    m_intakeRollers.spinRollersFeed(intakeFeedSpeed);
   }
 }

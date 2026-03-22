@@ -38,12 +38,6 @@ public final class Constants {
     public static final double TURN_CONSTANT    = 6;
   }
 
-  public static class IntakeConstants {
-    public static double intakeExtendedPosition = 0.0;
-    public static double intakeRetractedPosition = 0.0;
-    // public static final double intakeLaunchPosition = 2.0; // Use if we need a launching position
-  }
-
   public static class IntakeDeployConstants{
     public static double intakeRetractPosition = 0.1;
     public static double intakeExtendPosition = 10.0;
