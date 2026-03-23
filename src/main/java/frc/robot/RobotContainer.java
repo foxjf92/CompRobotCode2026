@@ -11,8 +11,6 @@ import frc.robot.commands.HopperRollersStillCommand;
 import frc.robot.commands.IntakeExtendCommand;
 import frc.robot.commands.IntakeRetractCommand;
 import frc.robot.commands.IntakeRollersExtendCommand;
-// import frc.robot.commands.IntakeExtendCommand;
-// import frc.robot.commands.IntakeRetractCommand;
 import frc.robot.commands.IntakeRollersFeedCommand;
 import frc.robot.commands.IntakeRollersIntakeCommand;
 import frc.robot.commands.LauncherCommand;
@@ -28,7 +26,6 @@ import frc.robot.subsystems.IntakeDeploySubsystem;
 import java.io.File;
 
 import com.pathplanner.lib.auto.NamedCommands;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -60,15 +57,13 @@ public class RobotContainer {
   // Intake Commands
   Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.55);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
-  Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.5);
+  Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
   Command intakeRollersDeployIntake = new IntakeRollersExtendCommand(intakeRollers, -0.1);
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
   Command intakeLaunchRetract = new IntakeRetractCommand(intakeDeploy); 
   Command intakeLaunchRetractDelay = new WaitCommand(0.5);
-  // Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
-  // Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
   // Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5).withTimeout(1.0);
   // Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0).withTimeout(1.0);
   // Command intakeExtendAuto = new IntakeExtendCommand(intakeDeploy).withTimeout(1.0);
@@ -82,15 +77,15 @@ public class RobotContainer {
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,0.6);
-  Command feederPass = new FeederCommand(feeder, 0.3);
+  // Command feederPass = new FeederCommand(feeder, 0.3); // passing related, if we need
   Command feederStill = new FeederCommand(feeder, 0.0);
-  Command feedDelay = new WaitCommand(0.2); // TODO check how long launcher takes to spin up and adjust this delay accordingly
+  Command feedDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
   // Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
   // Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.50);
-  Command launcherPass = new LauncherCommand(launcher,0.8);
+  // Command launcherPass = new LauncherCommand(launcher, 0.8); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherStill = new LauncherCommand(launcher, 0.0);
   // Command launcheLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
   // Command launcherStillAuto = new LauncherCommand(launcher, 0.0).withTimeout(1.0);
