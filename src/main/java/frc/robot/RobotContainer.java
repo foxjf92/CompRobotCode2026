@@ -25,7 +25,7 @@ import frc.robot.subsystems.IntakeDeploySubsystem;
 
 import java.io.File;
 
-import com.pathplanner.lib.auto.NamedCommands;
+// import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -158,12 +158,10 @@ public class RobotContainer {
     // Driver bindings
     driverController.leftBumper().onTrue(new InstantCommand(drivebase :: zeroGyro));
 
-    // operatorController.rightBumper().whileTrue(hopperFeed);
-    // operatorController.leftBumper().whileTrue(feederFeed);
-
     // Operator bindings
     operatorController.rightBumper().onTrue(intakeExtend);
     operatorController.rightBumper().onTrue(intakeRollersDeployIntake.alongWith(new WaitCommand(1.0)));
+    // operatorController.rightBumper().onTrue(intakeRollersDeployIntake.withTimeout(1.0)); // TODO try this instead of above to make roller stop automatically?
     operatorController.leftBumper().onTrue(intakeRetract);
     operatorController.rightTrigger().whileTrue(intakeRollersIntake);
     operatorController.leftTrigger().whileTrue(intakeRollersReverse);
