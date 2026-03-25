@@ -49,14 +49,14 @@ public class IntakeRollersSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Publish intake roller telemetry
-    double leftRpm = leftEncoder.getVelocity();
-    double rightRpm = rightEncoder.getVelocity();
-    double leftCurrent = leftRollerMotor.getOutputCurrent();
-    double rightCurrent = rightRollerMotor.getOutputCurrent();
+    // double leftRpm = leftEncoder.getVelocity();
+    // double rightRpm = rightEncoder.getVelocity();
+    // double leftCurrent = leftRollerMotor.getOutputCurrent();
+    // double rightCurrent = rightRollerMotor.getOutputCurrent();
 
-    SmartDashboard.putNumber("IntakeLeftRollerRPM", leftRpm);
-    SmartDashboard.putNumber("IntakeRightRollerRPM", rightRpm);
-    SmartDashboard.putNumber("IntakeLeftRollerCurrent", leftCurrent);
-    SmartDashboard.putNumber("IntakeRightRollerCurrent", rightCurrent);
+    // SmartDashboard.putNumber("IntakeLeftRollerRPM", leftRpm);
+    // SmartDashboard.putNumber("IntakeRightRollerRPM", rightRpm);
+    // SmartDashboard.putNumber("IntakeLeftRollerCurrent", leftCurrent);
+    // SmartDashboard.putNumber("IntakeRightRollerCurrent", rightCurrent);
   }
 }

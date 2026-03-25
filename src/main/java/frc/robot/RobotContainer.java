@@ -55,37 +55,42 @@ public class RobotContainer {
   private final LauncherSubsystem launcher = new LauncherSubsystem();
 
   // Intake Commands
-  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.55);
+  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.65);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
   Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
+  Command intakeRollersPass = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
   Command intakeRollersDeployIntake = new IntakeRollersExtendCommand(intakeRollers, -0.1);
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
   Command intakeLaunchRetract = new IntakeRetractCommand(intakeDeploy); 
+  Command intakePassRetract = new IntakeRetractCommand(intakeDeploy); 
   Command intakeLaunchRetractDelay = new WaitCommand(0.5);
+  Command intakePassRetractDelay = new WaitCommand(0.5);
   // Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5).withTimeout(1.0);
   // Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0).withTimeout(1.0);
   // Command intakeExtendAuto = new IntakeExtendCommand(intakeDeploy).withTimeout(1.0);
   // Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy).withTimeout(1.0);
 
   // Hopper Commands
-  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.6);
+  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.7);
+  Command hopperPass = new HopperRollersFeedCommand(hopper, 0.7);
   Command hopperStill = new HopperRollersStillCommand(hopper);
   // Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5).withTimeout(1.0);
   // Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,0.6);
-  // Command feederPass = new FeederCommand(feeder, 0.3); // passing related, if we need
+  Command feederPass = new FeederCommand(feeder, 0.8); // passing related, if we need
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
+  Command passDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
   // Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
   // Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
 
   // Launcher Commands
-  Command launcherLaunch = new LauncherCommand(launcher, 0.50);
-  // Command launcherPass = new LauncherCommand(launcher, 0.8); // Maybe we can see what a higher velocity shot looks like for passing?
+  Command launcherLaunch = new LauncherCommand(launcher, 0.48);
+  Command launcherPass = new LauncherCommand(launcher, 0.8); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherStill = new LauncherCommand(launcher, 0.0);
   // Command launcheLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
   // Command launcherStillAuto = new LauncherCommand(launcher, 0.0).withTimeout(1.0);
@@ -138,6 +143,7 @@ public class RobotContainer {
     // Set default commands for subsystems
     // intakeDeploy.setDefaultCommand(intakeDeployStill);
     drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
+    // drivebase.setDefaultCommand(driveWithHeadingSnaps);
     intakeRollers.setDefaultCommand(intakeRollersStill);
     hopper.setDefaultCommand(hopperStill);
     feeder.setDefaultCommand(feederStill);
@@ -160,8 +166,8 @@ public class RobotContainer {
 
     // Operator bindings
     operatorController.rightBumper().onTrue(intakeExtend);
-    operatorController.rightBumper().onTrue(intakeRollersDeployIntake.alongWith(new WaitCommand(1.0)));
-    // operatorController.rightBumper().onTrue(intakeRollersDeployIntake.withTimeout(1.0)); // TODO try this instead of above to make roller stop automatically?
+    // operatorController.rightBumper().onTrue(intakeRollersDeployIntake.alongWith(new WaitCommand(1.0)));
+    operatorController.rightBumper().onTrue(intakeRollersDeployIntake.withTimeout(1.0)); // TODO try this instead of above to make roller stop automatically?
     operatorController.leftBumper().onTrue(intakeRetract);
     operatorController.rightTrigger().whileTrue(intakeRollersIntake);
     operatorController.leftTrigger().whileTrue(intakeRollersReverse);
@@ -172,7 +178,15 @@ public class RobotContainer {
                                                             .alongWith(hopperFeed)
                                                             .alongWith(intakeRollersFeed)
                                                             .alongWith(intakeLaunchRetractDelay
-                                                              .andThen(intakeLaunchRetract))))); 
+                                                              .andThen(intakeLaunchRetract)))));
+    
+    operatorController.b().whileTrue(launcherPass
+                                      .alongWith(passDelay.andThen(feederPass
+                                                            .alongWith(hopperPass)
+                                                            .alongWith(intakeRollersPass)
+                                                            .alongWith(intakePassRetractDelay
+                                                              .andThen(intakePassRetract)))));
+                                                              
     
     // // Debugging commands
     // operatorController.rightBumper().whileTrue(launcherLaunch);
