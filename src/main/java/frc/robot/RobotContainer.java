@@ -25,7 +25,10 @@ import frc.robot.subsystems.IntakeDeploySubsystem;
 
 import java.io.File;
 
-// import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -55,7 +58,7 @@ public class RobotContainer {
   private final LauncherSubsystem launcher = new LauncherSubsystem();
 
   // Intake Commands
-  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.65);
+  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.70);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
   Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
   Command intakeRollersPass = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
@@ -67,17 +70,17 @@ public class RobotContainer {
   Command intakePassRetract = new IntakeRetractCommand(intakeDeploy); 
   Command intakeLaunchRetractDelay = new WaitCommand(0.5);
   Command intakePassRetractDelay = new WaitCommand(0.5);
-  // Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5).withTimeout(1.0);
-  // Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0).withTimeout(1.0);
-  // Command intakeExtendAuto = new IntakeExtendCommand(intakeDeploy).withTimeout(1.0);
-  // Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy).withTimeout(1.0);
+  Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5).withTimeout(1.0);
+  Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0).withTimeout(1.0);
+  Command intakeExtendAuto = new IntakeExtendCommand(intakeDeploy).withTimeout(1.0);
+  Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy).withTimeout(1.0);
 
   // Hopper Commands
   Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.7);
   Command hopperPass = new HopperRollersFeedCommand(hopper, 0.7);
   Command hopperStill = new HopperRollersStillCommand(hopper);
-  // Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5).withTimeout(1.0);
-  // Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
+  Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5).withTimeout(1.0);
+  Command hopperStillAuto = new HopperRollersStillCommand(hopper).withTimeout(1.0);
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,0.6);
@@ -85,15 +88,15 @@ public class RobotContainer {
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
   Command passDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
-  // Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
-  // Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
+  Command feederFeedAuto = new FeederCommand(feeder, 1.0).withTimeout(1.0);
+  Command feederStillAuto = new FeederCommand(feeder, 0.0).withTimeout(1.0);
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.48);
   Command launcherPass = new LauncherCommand(launcher, 0.8); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherStill = new LauncherCommand(launcher, 0.0);
-  // Command launcheLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
-  // Command launcherStillAuto = new LauncherCommand(launcher, 0.0).withTimeout(1.0);
+  Command launcherLaunchAuto = new LauncherCommand(launcher, 0.5).withTimeout(1.0);
+  Command launcherStillAuto = new LauncherCommand(launcher, 0.0).withTimeout(1.0);
 
   //Swerve Commands
 
@@ -125,20 +128,22 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
+   
 
     // PathPlanner Commands
-    // NamedCommands.registerCommand("intakeDeployAuto", intakeExtendAuto);
-    // NamedCommands.registerCommand("intakeRetractAuto", intakeRetractAuto);
-    // NamedCommands.registerCommand("intakeRollersIntakeAuto", intakeRollersIntakeAuto);
-    // NamedCommands.registerCommand("intakeRollersStillAuto", intakeRollersStillAuto);
-    // NamedCommands.registerCommand("feederFeedAuto", feederFeedAuto);
-    // NamedCommands.registerCommand("feederStillAuto", feederStillAuto);
-    // NamedCommands.registerCommand("hopperFeedAuto", hopperFeedAuto);
-    // NamedCommands.registerCommand("hopperStillAuto", hopperStillAuto);
-    // NamedCommands.registerCommand("launcherLaunchAuto", launcheLaunchAuto);
-    // NamedCommands.registerCommand("launcherStillAuto", launcherStillAuto);
+    NamedCommands.registerCommand("intakeDeployAuto", intakeExtendAuto);
+    NamedCommands.registerCommand("intakeRetractAuto", intakeRetractAuto);
+    NamedCommands.registerCommand("intakeRollersIntakeAuto", intakeRollersIntakeAuto);
+    NamedCommands.registerCommand("intakeRollersStillAuto", intakeRollersStillAuto);
+    NamedCommands.registerCommand("feederFeedAuto", feederFeedAuto);
+    NamedCommands.registerCommand("feederStillAuto", feederStillAuto);
+    NamedCommands.registerCommand("hopperFeedAuto", hopperFeedAuto);
+    NamedCommands.registerCommand("hopperStillAuto", hopperStillAuto);
+    NamedCommands.registerCommand("launcherLaunchAuto", launcherLaunchAuto);
+    NamedCommands.registerCommand("launcherStillAuto", launcherStillAuto);
+
+     // Configure the trigger bindings
+    configureBindings();
 
     // Set default commands for subsystems
     // intakeDeploy.setDefaultCommand(intakeDeployStill);
@@ -167,7 +172,7 @@ public class RobotContainer {
     // Operator bindings
     operatorController.rightBumper().onTrue(intakeExtend);
     // operatorController.rightBumper().onTrue(intakeRollersDeployIntake.alongWith(new WaitCommand(1.0)));
-    operatorController.rightBumper().onTrue(intakeRollersDeployIntake.withTimeout(1.0)); // TODO try this instead of above to make roller stop automatically?
+    operatorController.rightBumper().onTrue(intakeRollersDeployIntake.withTimeout(2.0)); // TODO try this instead of above to make roller stop automatically?
     operatorController.leftBumper().onTrue(intakeRetract);
     operatorController.rightTrigger().whileTrue(intakeRollersIntake);
     operatorController.leftTrigger().whileTrue(intakeRollersReverse);
@@ -176,9 +181,14 @@ public class RobotContainer {
     operatorController.a().whileTrue(launcherLaunch
                                       .alongWith(feedDelay.andThen(feederFeed
                                                             .alongWith(hopperFeed)
-                                                            .alongWith(intakeRollersFeed)
-                                                            .alongWith(intakeLaunchRetractDelay
-                                                              .andThen(intakeLaunchRetract)))));
+                                                            .alongWith(intakeRollersFeed))));
+                                                            
+    // operatorController.a().whileTrue(launcherLaunch
+    //                                   .alongWith(feedDelay.andThen(feederFeed
+    //                                                         .alongWith(hopperFeed)
+    //                                                         .alongWith(intakeRollersFeed)
+    //                                                         .alongWith(intakeLaunchRetractDelay
+    //                                                           .andThen(intakeLaunchRetract)))));
     
     operatorController.b().whileTrue(launcherPass
                                       .alongWith(passDelay.andThen(feederPass
@@ -199,6 +209,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new PathPlannerAuto("MIDDLE AUTO");
+    // return null;
   }
 }
