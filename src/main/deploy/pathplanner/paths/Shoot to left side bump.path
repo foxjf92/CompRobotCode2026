@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.9946563981042653,
-        "y": 5.109644549763032
+        "x": 2.3487085308056868,
+        "y": 5.786670616113742
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0418171235991471,
-        "y": 3.97897562080378
+        "x": 2.3958692563005686,
+        "y": 4.6560016871544905
       },
       "isLocked": false,
       "linkedName": "Shoot Point"
@@ -56,7 +56,7 @@
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 540.0,
+    "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
@@ -69,7 +69,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 155.65891006330745
+    "rotation": -25.0
   },
   "useDefaultConstraints": true
 }
