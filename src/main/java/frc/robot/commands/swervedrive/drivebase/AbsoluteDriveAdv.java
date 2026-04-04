@@ -83,22 +83,22 @@ public class AbsoluteDriveAdv extends Command
     // Face Away from Drivers
     if (lookAway.getAsBoolean())
     {
-      headingY = -1;
+      headingY = 1;
     }
     // Face Right
     if (lookRight.getAsBoolean())
     {
-      headingX = 1;
+      headingX = -1;
     }
     // Face Left
     if (lookLeft.getAsBoolean())
     {
-      headingX = -1;
+      headingX = 1;
     }
     // Face Towards the Drivers
     if (lookTowards.getAsBoolean())
     {
-      headingY = 1;
+      headingY = -1;
     }
 
     // Prevent Movement After Auto

@@ -7,7 +7,64 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Starting To SHoot"
+            "pathName": "Middle Starting To Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "launcherLaunchAuto"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeDeployAuto"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.1
+                      }
+                    },
+                    {
+                      "type": "race",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "feederFeedAuto"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "hopperFeedAuto"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 5.0
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]

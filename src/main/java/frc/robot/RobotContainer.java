@@ -106,7 +106,7 @@ public class RobotContainer {
                                                             .withControllerRotationAxis(driverController::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
-                                                            .allianceRelativeControl(true);
+                                                            .allianceRelativeControl(false);
 
   SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(driverController::getRightX,
                                                                                              driverController::getRightY)
@@ -148,8 +148,8 @@ public class RobotContainer {
     // Set default commands for subsystems
     // intakeDeploy.setDefaultCommand(intakeDeployStill);
     // drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
-    drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
-    // drivebase.setDefaultCommand(driveWithHeadingSnaps);
+    // drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    drivebase.setDefaultCommand(driveWithHeadingSnaps);
     intakeRollers.setDefaultCommand(intakeRollersStill);
     hopper.setDefaultCommand(hopperStill);
     feeder.setDefaultCommand(feederStill);
@@ -210,8 +210,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    // return new PathPlannerAuto("MIDDLE AUTO");
-    return new PathPlannerAuto("Test Auto");
+    return new PathPlannerAuto("MIDDLE AUTO");
+    // return new PathPlannerAuto("Test Auto");
     // return null;
   }
 }
