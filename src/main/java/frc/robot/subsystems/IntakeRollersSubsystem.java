@@ -34,16 +34,16 @@ public class IntakeRollersSubsystem extends SubsystemBase {
 
   public void spinRollersCollect(double speed) {
     leftRollerMotor.set(speed);
-    rightRollerMotor.set(0.33*speed); // was .67, speed match is .33
+    rightRollerMotor.set(-speed); // was .67, speed match is .33
   }
 
   public void spinRollersFeed(double speed) {
     leftRollerMotor.set(speed);
-    rightRollerMotor.set(0.33*speed); // same as above speed reduction
+    rightRollerMotor.set(-speed); // same as above speed reduction
   }
 
   public void spinRollersDeployIntake(double speed) {
-    leftRollerMotor.set(speed);
+    leftRollerMotor.set(speed); // take off if needed
   }
 
   @Override

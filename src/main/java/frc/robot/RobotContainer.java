@@ -58,7 +58,7 @@ public class RobotContainer {
   private final LauncherSubsystem launcher = new LauncherSubsystem();
 
   // Intake Commands
-  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.70);
+  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.50);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
   Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
   Command intakeRollersPass = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
@@ -115,9 +115,9 @@ public class RobotContainer {
   Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
   Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
   Command driveWithHeadingSnaps = new AbsoluteDriveAdv(drivebase,
-                                              () -> -MathUtil.applyDeadband(driverController.getLeftY(),
+                                              () -> MathUtil.applyDeadband(driverController.getLeftY(),
                                                                           OperatorConstants.DEADBAND),
-                                              () -> -MathUtil.applyDeadband(driverController.getLeftX(),
+                                              () -> MathUtil.applyDeadband(driverController.getLeftX(),
                                                                           OperatorConstants.DEADBAND),
                                               () -> MathUtil.applyDeadband(driverController.getRightX(),
                                                                           OperatorConstants.RIGHT_X_DEADBAND),
@@ -173,7 +173,7 @@ public class RobotContainer {
     // Operator bindings
     operatorController.rightBumper().onTrue(intakeExtend);
     // operatorController.rightBumper().onTrue(intakeRollersDeployIntake.alongWith(new WaitCommand(1.0)));
-    operatorController.rightBumper().onTrue(intakeRollersDeployIntake.withTimeout(2.0)); // TODO try this instead of above to make roller stop automatically?
+    // operatorController.rightBumper().onTrue(intakeRollersDeployIntake.withTimeout(2.0)); // TODO try this instead of above to make roller stop automatically?
     operatorController.leftBumper().onTrue(intakeRetract);
     operatorController.rightTrigger().whileTrue(intakeRollersIntake);
     operatorController.leftTrigger().whileTrue(intakeRollersReverse);
