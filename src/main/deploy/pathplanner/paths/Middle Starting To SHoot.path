@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.326635071090047,
-        "y": 3.970521327014218
+        "x": 3.530817535545024,
+        "y": 3.852310426540283
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2341069716051374,
-        "y": 4.76439275555683
+        "x": 3.242563131313131,
+        "y": 3.221906565656567
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Central hub start"
     },
     {
       "anchor": {
-        "x": 2.3487085308056868,
-        "y": 5.786670616113742
+        "x": 0.9292550505050508,
+        "y": 2.088156565656567
       },
       "prevControl": {
-        "x": 2.950509478672986,
-        "y": 5.539502369668246
+        "x": 1.8454166666666667,
+        "y": 2.2141287878787903
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 155.0
+    "rotation": -153.0
   },
   "reversed": false,
   "folder": null,

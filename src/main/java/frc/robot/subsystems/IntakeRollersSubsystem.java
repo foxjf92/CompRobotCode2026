@@ -19,7 +19,7 @@ public class IntakeRollersSubsystem extends SubsystemBase {
   public IntakeRollersSubsystem() {
     rollerConfig = new SparkFlexConfig();
     rollerConfig
-      .smartCurrentLimit(45) // TODO tune current limit at some point
+      .smartCurrentLimit(40) // TODO tune current limit at some point
       .idleMode(IdleMode.kBrake)
       .voltageCompensation(12);
 

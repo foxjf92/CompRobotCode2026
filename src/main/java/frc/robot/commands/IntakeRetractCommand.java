@@ -12,7 +12,7 @@ public class IntakeRetractCommand extends Command{
     private int targetPosition; //Symbolic arm position where 1 = ground intake, 2 = amp position, 3 = launch position
     public static double intakeSetpoint = Constants.IntakeDeployConstants.intakeRetractPosition; // Encoder position value that corresponds to arm position
 
-    public final double kP = 0.14; //2nd .02 worked
+    public final double kP = 0.07; //2nd .02 worked
     public final double kI = 0.0; //4th
     public final double kD = 0.0; //3rd
     public final double arbFF = 0.0; // Start Here

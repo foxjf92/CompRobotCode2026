@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3487085308056868,
-        "y": 5.786670616113742
+        "x": 0.9292550505050508,
+        "y": 2.088156565656567
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3958692563005686,
-        "y": 4.6560016871544905
+        "x": 0.9764157759999326,
+        "y": 0.9574876366973153
       },
       "isLocked": false,
       "linkedName": "Shoot Point"
@@ -54,8 +54,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -69,7 +69,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 155.0
+    "rotation": -153.0
   },
   "useDefaultConstraints": true
 }

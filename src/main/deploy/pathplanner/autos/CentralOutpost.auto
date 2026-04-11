@@ -5,9 +5,34 @@
     "data": {
       "commands": [
         {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeDeployAuto"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "central to outpost"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Middle Starting To Shoot"
+            "pathName": "outpostToShoot"
           }
         },
         {
@@ -18,12 +43,6 @@
                 "type": "named",
                 "data": {
                   "name": "launcherLaunchAuto"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeDeployAuto"
                 }
               },
               {
@@ -56,6 +75,25 @@
                             "type": "named",
                             "data": {
                               "name": "intakeFeedAuto"
+                            }
+                          },
+                          {
+                            "type": "sequential",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "wait",
+                                  "data": {
+                                    "waitTime": 2.5
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "intakeRetractAuto"
+                                  }
+                                }
+                              ]
                             }
                           }
                         ]
