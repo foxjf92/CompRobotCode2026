@@ -218,4 +218,8 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
+
+  public IntakeDeploySubsystem getIntakeDeploy() {
+    return intakeDeploy;
+  }
 }

@@ -21,7 +21,7 @@ public class IntakeDeploySubsystem extends SubsystemBase {
     intakeDeployConfig = new SparkMaxConfig();
     intakeDeployConfig
         .smartCurrentLimit(15)
-        .idleMode(IdleMode.kBrake);
+        .idleMode(IdleMode.kCoast);
 
     leftOutNeo = new SparkMax(10, MotorType.kBrushless);
     leftOutNeo.configure(intakeDeployConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
@@ -31,25 +31,17 @@ public class IntakeDeploySubsystem extends SubsystemBase {
     leftEncoder = leftOutNeo.getEncoder();
   }
 
-  // public void extendIntake() {
-  //   leftOutNeo.set(0.1);
-  //   rightOutNeo.set(-0.1);
-  // }
+  public void setBrakeMode() {
+    intakeDeployConfig.idleMode(IdleMode.kBrake);
+    leftOutNeo.configure(intakeDeployConfig, com.revrobotics.ResetMode.kNoResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
+    rightOutNeo.configure(intakeDeployConfig, com.revrobotics.ResetMode.kNoResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
+  }
 
-  // public void holdDownIntake() {
-  //   leftOutNeo.set(0.1);
-  //   rightOutNeo.set(-0.1);
-  // }
-
-  // public void retractIntake() {
-  //   leftOutNeo.set(-0.1);
-  //   rightOutNeo.set(0.1);
-  // }
-
-  // public void holdUpIntake() {
-  //   leftOutNeo.set(-0.1);
-  //   rightOutNeo.set(0.1); 
-  // }
+  public void setCoastMode() {
+    intakeDeployConfig.idleMode(IdleMode.kCoast);
+    leftOutNeo.configure(intakeDeployConfig, com.revrobotics.ResetMode.kNoResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
+    rightOutNeo.configure(intakeDeployConfig, com.revrobotics.ResetMode.kNoResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
+  }
 
   public void moveIntake(double intakeSpeed) {
     leftOutNeo.set(intakeSpeed);

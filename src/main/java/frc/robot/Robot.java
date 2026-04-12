@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -17,6 +18,10 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+
+  private boolean m_inTeleop = false;
+  private boolean m_coastPending = false;
+  private final Timer m_coastTimer = new Timer();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -46,14 +51,33 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if (m_inTeleop) {
+      m_inTeleop = false;
+      m_coastPending = true;
+      m_coastTimer.reset();
+      m_coastTimer.start();
+    }
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    if (m_coastPending && m_coastTimer.hasElapsed(5.0)) {
+      m_robotContainer.getIntakeDeploy().setCoastMode();
+      m_coastPending = false;
+      m_coastTimer.stop();
+    }
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    m_inTeleop = false;
+    m_coastPending = false;
+    m_coastTimer.stop();
+    m_coastTimer.reset();
+    m_robotContainer.getIntakeDeploy().setBrakeMode();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -76,7 +100,10 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    
+    m_inTeleop = true;
+    m_coastPending = false;
+    m_coastTimer.stop();
+    m_coastTimer.reset();
   }
 
   /** This function is called periodically during operator control. */

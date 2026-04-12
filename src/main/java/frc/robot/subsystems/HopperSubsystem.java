@@ -20,7 +20,7 @@ public class HopperSubsystem extends SubsystemBase {
 
     hopperNeoConfig
       .smartCurrentLimit(60)
-      .idleMode(IdleMode.kBrake)
+      .idleMode(IdleMode.kCoast)
       .voltageCompensation(12);
 
     hopperLeftNeo = new SparkMax(9, MotorType.kBrushless);
