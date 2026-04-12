@@ -10,7 +10,6 @@ import frc.robot.commands.HopperRollersFeedCommand;
 import frc.robot.commands.HopperRollersStillCommand;
 import frc.robot.commands.IntakeExtendCommand;
 import frc.robot.commands.IntakeRetractCommand;
-import frc.robot.commands.IntakeRollersExtendCommand;
 import frc.robot.commands.IntakeRollersFeedCommand;
 import frc.robot.commands.IntakeRollersIntakeCommand;
 import frc.robot.commands.LauncherCommand;
@@ -26,11 +25,12 @@ import frc.robot.subsystems.IntakeDeploySubsystem;
 import java.io.File;
 
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -50,6 +50,8 @@ public class RobotContainer {
   
   private final SwerveSubsystem drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                             "swerve"));
+
+  private final SendableChooser<Command> autoChooser;
                                                                                 
   private final IntakeDeploySubsystem intakeDeploy = new IntakeDeploySubsystem();
   private final IntakeRollersSubsystem intakeRollers = new IntakeRollersSubsystem();
@@ -60,9 +62,8 @@ public class RobotContainer {
   // Intake Commands
   Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.50);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
-  Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.5); // was .5, probably don't need fast speed?
+  Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.3); // was .5, probably don't need fast speed?
   Command intakeRollersPass = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
-  // Command intakeRollersDeployIntake = new IntakeRollersExtendCommand(intakeRollers, -0.1);
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
@@ -71,7 +72,7 @@ public class RobotContainer {
   Command intakeLaunchRetractDelay = new WaitCommand(0.5);
   Command intakePassRetractDelay = new WaitCommand(0.5);
   Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5);
-  Command intakeRollersFeedAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5);
+  Command intakeRollersFeedAuto = new IntakeRollersFeedCommand(intakeRollers, 0.3);
   Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtendAuto = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy);
@@ -80,21 +81,21 @@ public class RobotContainer {
   Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.7);
   Command hopperPass = new HopperRollersFeedCommand(hopper, 0.7);
   Command hopperStill = new HopperRollersStillCommand(hopper);
-  Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5);
+  Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.7);
   Command hopperStillAuto = new HopperRollersStillCommand(hopper);
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,0.6);
-  Command feederPass = new FeederCommand(feeder, 0.8); // passing related, if we need
+  Command feederPass = new FeederCommand(feeder, 0.6); // passing related, if we need
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
   Command passDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
-  Command feederFeedAuto = new FeederCommand(feeder, 1.0);
+  Command feederFeedAuto = new FeederCommand(feeder, 0.6);
   Command feederStillAuto = new FeederCommand(feeder, 0.0);
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.48);
-  Command launcherPass = new LauncherCommand(launcher, 0.8); // Maybe we can see what a higher velocity shot looks like for passing?
+  Command launcherPass = new LauncherCommand(launcher, 0.7); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherStill = new LauncherCommand(launcher, 0.0);
   Command launcherLaunchAuto = new LauncherCommand(launcher, 0.5);
   Command launcherStillAuto = new LauncherCommand(launcher, 0.0);
@@ -143,8 +144,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("launcherLaunchAuto", launcherLaunchAuto);
     NamedCommands.registerCommand("launcherStillAuto", launcherStillAuto);
 
-     // Configure the trigger bindings
+    // Configure the trigger bindings
     configureBindings();
+
+    // Auto chooser — populated from PathPlanner autos in deploy/pathplanner/autos/
+    autoChooser = AutoBuilder.buildAutoChooser("CentralOutpost");
+    SmartDashboard.putData("Auto Chooser", autoChooser);
 
     // Set default commands for subsystems
     // intakeDeploy.setDefaultCommand(intakeDeployStill);
@@ -179,8 +184,9 @@ public class RobotContainer {
     operatorController.rightTrigger().whileTrue(intakeRollersIntake);
     operatorController.leftTrigger().whileTrue(intakeRollersReverse);
 
-    // When A is held: run launcher, and in parallel run a sequence that waits
+    // When A is held: run launcher, lock drive, and in parallel run a sequence that waits
     operatorController.a().whileTrue(launcherLaunch
+                                      .alongWith(drivebase.run(drivebase::lock))
                                       .alongWith(feedDelay.andThen(feederFeed
                                                             .alongWith(hopperFeed)
                                                             .alongWith(intakeRollersFeed))));
@@ -210,11 +216,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    // return new PathPlannerAuto("MIDDLE AUTO");
-    return new PathPlannerAuto("CentralOutpost");
-    // return new PathPlannerAuto("TrenchOutpost");
-    // return new PathPlannerAuto("Test Auto");
-    // return null;
+    return autoChooser.getSelected();
   }
 }

@@ -39,7 +39,7 @@ public final class Constants {
   }
 
   public static class IntakeDeployConstants{
-    public static double intakeRetractPosition = 1.0;
-    public static double intakeExtendPosition = 10.25;
+    public static final double intakeRetractPosition = 1.0;
+    public static final double intakeExtendPosition = 10.25;
   }
 }

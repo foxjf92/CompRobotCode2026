@@ -9,7 +9,6 @@ import frc.robot.subsystems.IntakeDeploySubsystem;
 
 public class IntakeExtendCommand extends Command{
     private final IntakeDeploySubsystem m_intakeDeploy;
-    private int targetPosition; //Symbolic arm position where 1 = ground intake, 2 = amp position, 3 = launch position
     public static double intakeSetpoint = Constants.IntakeDeployConstants.intakeExtendPosition; // Encoder position value that corresponds to arm position
 
     public final double kP = 0.065; //2nd 

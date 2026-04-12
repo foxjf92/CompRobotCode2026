@@ -21,7 +21,7 @@ public class IntakeDeploySubsystem extends SubsystemBase {
     intakeDeployConfig = new SparkMaxConfig();
     intakeDeployConfig
         .smartCurrentLimit(15)
-        .idleMode(IdleMode.kCoast);
+        .idleMode(IdleMode.kBrake);
 
     leftOutNeo = new SparkMax(10, MotorType.kBrushless);
     leftOutNeo.configure(intakeDeployConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);

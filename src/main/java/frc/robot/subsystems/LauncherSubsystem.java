@@ -30,7 +30,7 @@ public class LauncherSubsystem extends SubsystemBase {
     launcherLeftVortex.configure(launcherVortexConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
     
     launcherRightVortex = new SparkFlex(19, MotorType.kBrushless); // TODO set CAN ID on hardware and in code
-    launcherRightVortex.configure(launcherVortexConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kNoPersistParameters);
+    launcherRightVortex.configure(launcherVortexConfig, com.revrobotics.ResetMode.kResetSafeParameters, com.revrobotics.PersistMode.kPersistParameters);
 
   }
 
