@@ -96,7 +96,7 @@ public class RobotContainer {
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.48);
-  Command launcherMidPass = new LauncherCommand(launcher, 0.7); // Maybe we can see what a higher velocity shot looks like for passing?
+  Command launcherMidPass = new LauncherCommand(launcher, 0.6); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherFarPass = new LauncherCommand(launcher, 0.9); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherStill = new LauncherCommand(launcher, 0.0);
   Command launcherLaunchAuto = new LauncherCommand(launcher, 0.5);
