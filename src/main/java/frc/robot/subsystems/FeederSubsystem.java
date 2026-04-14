@@ -20,7 +20,7 @@ public class FeederSubsystem extends SubsystemBase {
   public FeederSubsystem() {
     feedMotorConfig = new TalonFXConfiguration();
     feedMotorConfig
-      .MotorOutput.withNeutralMode(com.ctre.phoenix6.signals.NeutralModeValue.Brake);
+      .MotorOutput.withNeutralMode(com.ctre.phoenix6.signals.NeutralModeValue.Coast);
 
     feedMotorCurrentLimits = new CurrentLimitsConfigs();
     feedMotorCurrentLimits.SupplyCurrentLimit = 30;         // limits power consumption

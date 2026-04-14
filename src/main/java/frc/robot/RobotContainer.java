@@ -10,7 +10,6 @@ import frc.robot.commands.HopperRollersFeedCommand;
 import frc.robot.commands.HopperRollersStillCommand;
 import frc.robot.commands.IntakeExtendCommand;
 import frc.robot.commands.IntakeRetractCommand;
-import frc.robot.commands.IntakeRollersExtendCommand;
 import frc.robot.commands.IntakeRollersFeedCommand;
 import frc.robot.commands.IntakeRollersIntakeCommand;
 import frc.robot.commands.LauncherCommand;
@@ -58,18 +57,18 @@ public class RobotContainer {
   private final LauncherSubsystem launcher = new LauncherSubsystem();
 
   // Intake Commands
-  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.50);
+  Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.5);
   Command intakeRollersReverse = new IntakeRollersIntakeCommand(intakeRollers, -0.5);
   Command intakeRollersFeed = new IntakeRollersFeedCommand(intakeRollers, 0.5); // was .5, probably don't need fast speed?
-  Command intakeRollersPass = new IntakeRollersFeedCommand(intakeRollers, 0.25); // was .5, probably don't need fast speed?
-  // Command intakeRollersDeployIntake = new IntakeRollersExtendCommand(intakeRollers, -0.1);
+  Command intakeRollersMidPass = new IntakeRollersFeedCommand(intakeRollers, 0.5); // was .5, probably don't need fast speed?
+  Command intakeRollersFarPass = new IntakeRollersFeedCommand(intakeRollers, 0.5); // was .5, probably don't need fast speed?
   Command intakeRollersStill = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
   Command intakeExtend = new IntakeExtendCommand(intakeDeploy);
   Command intakeRetract = new IntakeRetractCommand(intakeDeploy);
-  Command intakeLaunchRetract = new IntakeRetractCommand(intakeDeploy); 
-  Command intakePassRetract = new IntakeRetractCommand(intakeDeploy); 
-  Command intakeLaunchRetractDelay = new WaitCommand(0.5);
-  Command intakePassRetractDelay = new WaitCommand(0.5);
+  // Command intakeLaunchRetract = new IntakeRetractCommand(intakeDeploy); 
+  // Command intakePassRetract = new IntakeRetractCommand(intakeDeploy); 
+  // Command intakeLaunchRetractDelay = new WaitCommand(0.5);
+  // Command intakePassRetractDelay = new WaitCommand(0.5);
   Command intakeRollersIntakeAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5);
   Command intakeRollersFeedAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.5);
   Command intakeRollersStillAuto = new IntakeRollersIntakeCommand(intakeRollers, 0.0);
@@ -78,23 +77,27 @@ public class RobotContainer {
 
   // Hopper Commands
   Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.7);
-  Command hopperPass = new HopperRollersFeedCommand(hopper, 0.7);
+  Command hopperMidPass = new HopperRollersFeedCommand(hopper, 0.7);
+  Command hopperFarPass = new HopperRollersFeedCommand(hopper, 0.7);
   Command hopperStill = new HopperRollersStillCommand(hopper);
   Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5);
   Command hopperStillAuto = new HopperRollersStillCommand(hopper);
 
   // Feeder Commands
   Command feederFeed = new FeederCommand(feeder,0.6);
-  Command feederPass = new FeederCommand(feeder, 0.8); // passing related, if we need
+  Command feederMidPass = new FeederCommand(feeder, 0.6); // passing related, if we need
+  Command feederFarPass = new FeederCommand(feeder, 0.6); // passing related, if we need
   Command feederStill = new FeederCommand(feeder, 0.0);
   Command feedDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
-  Command passDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
-  Command feederFeedAuto = new FeederCommand(feeder, 1.0);
+  Command midPassDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
+  Command farPassDelay = new WaitCommand(0.2); // .2 seems pretty good? Maybe less delay is possible?
+  Command feederFeedAuto = new FeederCommand(feeder, 0.6);
   Command feederStillAuto = new FeederCommand(feeder, 0.0);
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.48);
-  Command launcherPass = new LauncherCommand(launcher, 0.8); // Maybe we can see what a higher velocity shot looks like for passing?
+  Command launcherMidPass = new LauncherCommand(launcher, 0.7); // Maybe we can see what a higher velocity shot looks like for passing?
+  Command launcherFarPass = new LauncherCommand(launcher, 0.9); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherStill = new LauncherCommand(launcher, 0.0);
   Command launcherLaunchAuto = new LauncherCommand(launcher, 0.5);
   Command launcherStillAuto = new LauncherCommand(launcher, 0.0);
@@ -155,7 +158,7 @@ public class RobotContainer {
     hopper.setDefaultCommand(hopperStill);
     feeder.setDefaultCommand(feederStill);
     launcher.setDefaultCommand(launcherStill);
-    intakeDeploy.setDefaultCommand(intakeRetract); //TODO change this at some point to be based off auto end state? No default command but schedule autons?
+    // intakeDeploy.setDefaultCommand(intakeRetract); //TODO change this at some point to be based off auto end state? No default command but schedule autons?
   }
 
   /**
@@ -173,35 +176,25 @@ public class RobotContainer {
 
     // Operator bindings
     operatorController.rightBumper().onTrue(intakeExtend);
-    // operatorController.rightBumper().onTrue(intakeRollersDeployIntake.alongWith(new WaitCommand(1.0)));
-    // operatorController.rightBumper().onTrue(intakeRollersDeployIntake.withTimeout(2.0)); // TODO try this instead of above to make roller stop automatically?
     operatorController.leftBumper().onTrue(intakeRetract);
     operatorController.rightTrigger().whileTrue(intakeRollersIntake);
     operatorController.leftTrigger().whileTrue(intakeRollersReverse);
 
     // When A is held: run launcher, and in parallel run a sequence that waits
     operatorController.a().whileTrue(launcherLaunch
+                                      .alongWith(drivebase.run(drivebase::lock))
                                       .alongWith(feedDelay.andThen(feederFeed
                                                             .alongWith(hopperFeed)
                                                             .alongWith(intakeRollersFeed))));
-                                                            
-    // operatorController.a().whileTrue(launcherLaunch
-    //                                   .alongWith(feedDelay.andThen(feederFeed
-    //                                                         .alongWith(hopperFeed)
-    //                                                         .alongWith(intakeRollersFeed)
-    //                                                         .alongWith(intakeLaunchRetractDelay
-    //                                                           .andThen(intakeLaunchRetract)))));
     
-    operatorController.b().whileTrue(launcherPass
-                                      .alongWith(passDelay.andThen(feederPass
-                                                            .alongWith(hopperPass)
-                                                            .alongWith(intakeRollersPass)
-                                                            .alongWith(intakePassRetractDelay
-                                                              .andThen(intakePassRetract)))));
-                                                              
-    
-    // // Debugging commands
-    // operatorController.rightBumper().whileTrue(launcherLaunch);
+    operatorController.b().whileTrue(launcherMidPass
+                                      .alongWith(midPassDelay.andThen(feederMidPass
+                                                            .alongWith(hopperMidPass)
+                                                            .alongWith(intakeRollersMidPass))));
+    operatorController.y().whileTrue(launcherFarPass
+                                      .alongWith(farPassDelay.andThen(feederFarPass
+                                                            .alongWith(hopperFarPass)
+                                                            .alongWith(intakeRollersFarPass))));
   }
 
   /**

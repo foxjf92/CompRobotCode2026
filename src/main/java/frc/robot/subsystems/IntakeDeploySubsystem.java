@@ -31,26 +31,6 @@ public class IntakeDeploySubsystem extends SubsystemBase {
     leftEncoder = leftOutNeo.getEncoder();
   }
 
-  // public void extendIntake() {
-  //   leftOutNeo.set(0.1);
-  //   rightOutNeo.set(-0.1);
-  // }
-
-  // public void holdDownIntake() {
-  //   leftOutNeo.set(0.1);
-  //   rightOutNeo.set(-0.1);
-  // }
-
-  // public void retractIntake() {
-  //   leftOutNeo.set(-0.1);
-  //   rightOutNeo.set(0.1);
-  // }
-
-  // public void holdUpIntake() {
-  //   leftOutNeo.set(-0.1);
-  //   rightOutNeo.set(0.1); 
-  // }
-
   public void moveIntake(double intakeSpeed) {
     leftOutNeo.set(intakeSpeed);
     rightOutNeo.set(-intakeSpeed);
