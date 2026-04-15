@@ -31,11 +31,11 @@ public class FeederSubsystem extends SubsystemBase {
     feedMotorConfig
       .withCurrentLimits(feedMotorCurrentLimits);
 
-    leftFeedMotor = new TalonFX(16, CANBus.roboRIO()); // TODO set CAN ID on hardware and in code
+    leftFeedMotor = new TalonFX(16, CANBus.roboRIO());
     leftFeedMotor.getConfigurator().refresh(feedMotorConfig);   
     leftFeedMotor.getConfigurator().apply(feedMotorConfig);
 
-    rightFeedMotor = new TalonFX(17, CANBus.roboRIO()); // TODO set CAN ID on hardware and in code
+    rightFeedMotor = new TalonFX(17, CANBus.roboRIO());
     rightFeedMotor.getConfigurator().refresh(feedMotorConfig);
     rightFeedMotor.getConfigurator().apply(feedMotorConfig);
   }

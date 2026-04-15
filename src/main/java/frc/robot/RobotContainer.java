@@ -150,7 +150,6 @@ public class RobotContainer {
     configureBindings();
 
     // Set default commands for subsystems
-    // intakeDeploy.setDefaultCommand(intakeDeployStill);
     // drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
     // drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
     drivebase.setDefaultCommand(driveWithHeadingSnaps);
@@ -158,7 +157,6 @@ public class RobotContainer {
     hopper.setDefaultCommand(hopperStill);
     feeder.setDefaultCommand(feederStill);
     launcher.setDefaultCommand(launcherStill);
-    // intakeDeploy.setDefaultCommand(intakeRetract); //TODO change this at some point to be based off auto end state? No default command but schedule autons?
   }
 
   /**
@@ -173,6 +171,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Driver bindings
     driverController.leftBumper().onTrue(new InstantCommand(drivebase :: zeroGyro));
+    driverController.rightBumper().whileTrue(drivebase.run(drivebase::lock));
 
     // Operator bindings
     operatorController.rightBumper().onTrue(intakeExtend);

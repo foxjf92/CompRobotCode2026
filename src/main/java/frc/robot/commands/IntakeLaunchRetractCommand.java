@@ -19,7 +19,6 @@ public class IntakeLaunchRetractCommand extends Command{
 
     public IntakeLaunchRetractCommand(IntakeDeploySubsystem intakeDeploy){
         m_intakeDeploy = intakeDeploy; 
-        // targetPosition = m_position;
         addRequirements(m_intakeDeploy);
     }
 
