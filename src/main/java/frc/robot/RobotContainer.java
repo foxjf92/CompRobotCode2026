@@ -30,6 +30,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -55,6 +57,8 @@ public class RobotContainer {
   private final HopperSubsystem hopper = new HopperSubsystem();
   private final FeederSubsystem feeder = new FeederSubsystem();
   private final LauncherSubsystem launcher = new LauncherSubsystem();
+
+  private final SendableChooser<Command> autoChooser;
 
   // Intake Commands
   Command intakeRollersIntake = new IntakeRollersIntakeCommand(intakeRollers, 0.5);
@@ -146,6 +150,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("launcherLaunchAuto", launcherLaunchAuto);
     NamedCommands.registerCommand("launcherStillAuto", launcherStillAuto);
 
+    // Auto chooser — must be built after NamedCommands are registered
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
      // Configure the trigger bindings
     configureBindings();
 
@@ -202,11 +210,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    // return new PathPlannerAuto("MIDDLE AUTO");
-    return new PathPlannerAuto("CentralOutpost");
-    // return new PathPlannerAuto("TrenchOutpost");
-    // return new PathPlannerAuto("Test Auto");
-    // return null;
+    return autoChooser.getSelected();
   }
 }
