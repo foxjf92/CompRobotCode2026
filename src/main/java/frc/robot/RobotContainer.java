@@ -80,9 +80,9 @@ public class RobotContainer {
   Command intakeRetractAuto = new IntakeRetractCommand(intakeDeploy);
 
   // Hopper Commands
-  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.7);
-  Command hopperMidPass = new HopperRollersFeedCommand(hopper, 0.7);
-  Command hopperFarPass = new HopperRollersFeedCommand(hopper, 0.7);
+  Command hopperFeed = new HopperRollersFeedCommand(hopper, 0.6);
+  Command hopperMidPass = new HopperRollersFeedCommand(hopper, 0.6);
+  Command hopperFarPass = new HopperRollersFeedCommand(hopper, 0.6);
   Command hopperStill = new HopperRollersStillCommand(hopper);
   Command hopperFeedAuto = new HopperRollersFeedCommand(hopper, 0.5);
   Command hopperStillAuto = new HopperRollersStillCommand(hopper);
@@ -100,7 +100,7 @@ public class RobotContainer {
 
   // Launcher Commands
   Command launcherLaunch = new LauncherCommand(launcher, 0.48);
-  Command launcherMidPass = new LauncherCommand(launcher, 0.5); // Maybe we can see what a higher velocity shot looks like for passing?
+  Command launcherMidPass = new LauncherCommand(launcher, 0.7); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherFarPass = new LauncherCommand(launcher, 0.9); // Maybe we can see what a higher velocity shot looks like for passing?
   Command launcherStill = new LauncherCommand(launcher, 0.0);
   Command launcherLaunchAuto = new LauncherCommand(launcher, 0.5);
